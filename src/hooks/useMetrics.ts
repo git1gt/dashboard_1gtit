@@ -73,7 +73,7 @@ export function useMetrics() {
         // Get monthyear_id
         const { data: monthYearData, error: monthYearError } = await supabase
           .from('month_in_year')
-          .select('monthyear_id')
+          .select('monthYear_id')
           .eq('year_id', yearData.year_id)
           .eq('month_id', finalMonthData.month_id)
           .maybeSingle();
@@ -91,7 +91,7 @@ export function useMetrics() {
         const { data: monthlyMetrics, error: metricsError } = await supabase
           .from('monthly_metrics')
           .select(`
-            monthmetric_id,
+            monthMetric_id,
             metric_id,
             value,
             metrics (
@@ -99,7 +99,7 @@ export function useMetrics() {
               measurement
             )
           `)
-          .eq('monthyear_id', monthYearData.monthyear_id)
+          .eq('monthYear_id', monthYearData.monthyear_id)
           .limit(4);
 
         if (metricsError && metricsError.code !== 'PGRST116') {
