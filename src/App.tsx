@@ -217,7 +217,6 @@ function App() {
             icon={<FileCheck className="w-6 h-6" />}
             title="Обработанных заявок"
             value={7145}
-            subtitle="В августе 2025"
             delay={0}
             color="bg-gradient-to-br from-cyan-400 to-cyan-500"
           />
@@ -226,7 +225,6 @@ function App() {
             icon={<FolderCheck className="w-6 h-6" />}
             title="Завершенных проектов"
             value={127}
-            subtitle="За весь 2025 год"
             delay={200}
             color="bg-gradient-to-br from-cyan-400 to-cyan-500"
           />
