@@ -204,7 +204,7 @@ function App() {
             Показатели 1GT.IT
           </h2>
           <p className="text-lg text-gray-600">
-            Что мы сделали в 2025 году
+            Что мы сделали за 2025 год
           </p>
         </div>
 
