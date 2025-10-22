@@ -18,14 +18,12 @@ export function useTeam() {
           .select('employee_id, full_name')
           .limit(6);
 
-        if (employeesError) {
+        if (employeesError && employeesError.code !== 'PGRST116') {
           console.error('Error fetching employees:', employeesError);
-          setError('Ошибка получения данных сотрудников');
-          return;
         }
-
+        
         if (!employees || employees.length === 0) {
-          setError('Нет данных о сотрудниках');
+          setError('Ошибка получения данных сотрудников');
           return;
         }
 
@@ -33,7 +31,7 @@ export function useTeam() {
         const teamWithDetails = await Promise.all(
           employees.map(async (employee) => {
             // Get position
-            const { data: positionData } = await supabase
+            const { data: positionData, error: positionError } = await supabase
               .from('employee_by_position')
               .select(`
                 positions (
@@ -41,10 +39,14 @@ export function useTeam() {
                 )
               `)
               .eq('employee_id', employee.employee_id)
-              .single();
+              .maybeSingle();
+
+            if (positionError && positionError.code !== 'PGRST116') {
+              console.error('Error fetching position:', positionError);
+            }
 
             // Get team
-            const { data: teamData } = await supabase
+            const { data: teamData, error: teamError } = await supabase
               .from('employee_in_team')
               .select(`
                 teams (
@@ -52,7 +54,11 @@ export function useTeam() {
                 )
               `)
               .eq('employee_id', employee.employee_id)
-              .single();
+              .maybeSingle();
+
+            if (teamError && teamError.code !== 'PGRST116') {
+              console.error('Error fetching team:', teamError);
+            }
 
             return {
               ...employee,
