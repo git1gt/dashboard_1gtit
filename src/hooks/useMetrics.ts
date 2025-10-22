@@ -22,10 +22,13 @@ export function useMetrics() {
           .from('years')
           .select('year_id')
           .eq('year', currentYear)
-          .single();
+          .maybeSingle();
 
-        if (yearError) {
+        if (yearError && yearError.code !== 'PGRST116') {
           console.error('Error fetching year:', yearError);
+        }
+        
+        if (!yearData) {
           setError('Ошибка получения данных года');
           return;
         }
@@ -35,10 +38,15 @@ export function useMetrics() {
           .from('months')
           .select('month_id')
           .eq('month', currentMonth)
-          .single();
+          .maybeSingle();
 
-        if (monthError) {
+        if (monthError && monthError.code !== 'PGRST116') {
           console.error('Error fetching month:', monthError);
+        }
+        
+        let finalMonthData = monthData;
+        
+        if (!monthData) {
           // Try previous month if current month not found
           const prevDate = new Date();
           prevDate.setMonth(prevDate.getMonth() - 1);
@@ -48,15 +56,18 @@ export function useMetrics() {
             .from('months')
             .select('month_id')
             .eq('month', prevMonth)
-            .single();
+            .maybeSingle();
 
-          if (prevMonthError) {
+          if (prevMonthError && prevMonthError.code !== 'PGRST116') {
             console.error('Error fetching previous month:', prevMonthError);
+          }
+          
+          if (!prevMonthData) {
             setError('Ошибка получения данных месяца');
             return;
           }
           
-          monthData = prevMonthData;
+          finalMonthData = prevMonthData;
         }
 
         // Get monthyear_id
@@ -64,11 +75,14 @@ export function useMetrics() {
           .from('month_in_year')
           .select('monthyear_id')
           .eq('year_id', yearData.year_id)
-          .eq('month_id', monthData.month_id)
-          .single();
+          .eq('month_id', finalMonthData.month_id)
+          .maybeSingle();
 
-        if (monthYearError) {
+        if (monthYearError && monthYearError.code !== 'PGRST116') {
           console.error('Error fetching month_in_year:', monthYearError);
+        }
+        
+        if (!monthYearData) {
           setError('Нет данных за этот месяц');
           return;
         }
@@ -88,14 +102,12 @@ export function useMetrics() {
           .eq('monthyear_id', monthYearData.monthyear_id)
           .limit(4);
 
-        if (metricsError) {
+        if (metricsError && metricsError.code !== 'PGRST116') {
           console.error('Error fetching metrics:', metricsError);
-          setError('Ошибка получения метрик');
-          return;
         }
-
+        
         if (!monthlyMetrics || monthlyMetrics.length === 0) {
-          setError('Нет данных за этот месяц');
+          setError('Ошибка получения метрик');
           return;
         }
 
