@@ -1,13 +1,6 @@
 import React from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { 
-  FileCheck, 
-  FolderCheck, 
-  Clock, 
-  Users,
-  TrendingUp,
-  BarChart3
-} from 'lucide-react';
+import { FileCheck, FolderCheck, Clock, Users, TrendingUp, ChartBar as BarChart3 } from 'lucide-react';
 import { useMetrics } from '@/hooks/useMetrics';
 import { MetricCard } from './MetricCard';
 
