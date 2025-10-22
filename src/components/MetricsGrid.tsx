@@ -53,14 +53,15 @@ export function MetricsGrid() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
       {metrics.map((metric, index) => {
-        const iconConfig = iconMap[index % iconMap.length];
+        const measurement = metric.metrics?.measurement || 'по умолчанию';
+        const iconConfig = measurementIconMap[measurement] || measurementIconMap['по умолчанию'];
         return (
           <MetricCard
             key={metric.monthmetric_id}
             icon={iconConfig.icon}
             title={metric.metric_name || 'Неизвестная метрика'}
             value={metric.value || 0}
-            subtitle={metric.measurement}
+            subtitle={measurement}
             delay={index * 200}
             color={iconConfig.color}
           />
