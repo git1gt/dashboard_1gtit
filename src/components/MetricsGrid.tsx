@@ -57,7 +57,7 @@ export function MetricsGrid() {
             icon={iconConfig.icon}
             title={metric.metric_name || 'Неизвестная метрика'}
             value={metric.value || 0}
-            subtitle="За текущий период"
+            subtitle={metric.measurement}
             delay={index * 200}
             color={iconConfig.color}
           />
