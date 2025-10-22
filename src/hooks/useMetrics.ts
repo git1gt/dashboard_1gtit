@@ -14,7 +14,7 @@ export function useMetrics() {
 
         // Get current month and year
         const currentDate = new Date();
-        const currentMonth = currentDate.toLocaleString('ru-RU', { month: 'long' });
+        const currentMonthId = currentDate.getMonth() + 1;
         const currentYear = 2025;
 
         // First, get the year_id for 2025
@@ -33,40 +33,38 @@ export function useMetrics() {
           return;
         }
 
-        // Get current month_id
+       // Получаем текущий месяц из БД
         const { data: monthData, error: monthError } = await supabase
           .from('months')
           .select('month_id')
-          .eq('month', currentMonth)
+          .eq('month_id', currentMonthId)
           .maybeSingle();
-
+        
         if (monthError && monthError.code !== 'PGRST116') {
           console.error('Error fetching month:', monthError);
         }
         
         let finalMonthData = monthData;
         
+        // Если данных нет — пробуем предыдущий месяц
         if (!monthData) {
-          // Try previous month if current month not found
-          const prevDate = new Date();
-          prevDate.setMonth(prevDate.getMonth() - 1);
-          const prevMonth = prevDate.toLocaleString('ru-RU', { month: 'long' });
-          
+          const prevMonthId = currentMonthId === 1 ? 12 : currentMonthId - 1;
+        
           const { data: prevMonthData, error: prevMonthError } = await supabase
             .from('months')
             .select('month_id')
-            .eq('month', prevMonth)
+            .eq('month_id', prevMonthId)
             .maybeSingle();
-
+        
           if (prevMonthError && prevMonthError.code !== 'PGRST116') {
             console.error('Error fetching previous month:', prevMonthError);
           }
-          
+        
           if (!prevMonthData) {
             setError('Ошибка получения данных месяца');
             return;
           }
-          
+        
           finalMonthData = prevMonthData;
         }
 
