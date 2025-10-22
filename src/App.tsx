@@ -4,13 +4,11 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
-  FileCheck, 
-  FolderCheck, 
-  Clock, 
-  Users,
   TrendingUp,
   Building2
 } from 'lucide-react';
+import { MetricsGrid } from '@/components/MetricsGrid';
+import { TeamSection } from '@/components/TeamSection';
 import {
   LineChart,
   Line,
@@ -20,23 +18,6 @@ import {
   Tooltip,
   ResponsiveContainer
 } from 'recharts';
-
-interface MetricCardProps {
-  icon: React.ReactNode;
-  title: string;
-  value: number;
-  subtitle: string;
-  delay?: number;
-  color: string;
-}
-
-interface TeamMember {
-  name: string;
-  role: string;
-  department: string;
-  image: string;
-  badgeColor: string;
-}
 
 const chartData = [
   { month: 'Янв', value: 5234 },
@@ -52,121 +33,6 @@ const chartData = [
   { month: 'Ноя', value: 9123 },
   { month: 'Дек', value: 9456 }
 ];
-
-const teamMembers: TeamMember[] = [
-  {
-    name: 'Александр Иванов',
-    role: 'Tech Lead',
-    department: 'Backend',
-    image: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
-    badgeColor: 'bg-blue-500'
-  },
-  {
-    name: 'Мария Петрова',
-    role: 'UI/UX Designer',
-    department: 'Design',
-    image: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
-    badgeColor: 'bg-purple-500'
-  },
-  {
-    name: 'Дмитрий Смирнов',
-    role: 'Senior Developer',
-    department: 'Frontend',
-    image: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
-    badgeColor: 'bg-cyan-500'
-  },
-  {
-    name: 'Елена Волкова',
-    role: 'Product Manager',
-    department: 'Management',
-    image: 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
-    badgeColor: 'bg-teal-500'
-  },
-  {
-    name: 'Андрей Козлов',
-    role: 'DevOps Engineer',
-    department: 'Infrastructure',
-    image: 'https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
-    badgeColor: 'bg-green-500'
-  },
-  {
-    name: 'Ольга Новикова',
-    role: 'Support Specialist',
-    department: 'Support',
-    image: 'https://images.pexels.com/photos/1181424/pexels-photo-1181424.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
-    badgeColor: 'bg-orange-500'
-  }
-];
-
-function MetricCard({ icon, title, value, subtitle, delay = 0, color }: MetricCardProps) {
-  const [animatedValue, setAnimatedValue] = useState(0);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const duration = 2000;
-      const steps = 60;
-      const increment = value / steps;
-      let current = 0;
-      
-      const counter = setInterval(() => {
-        current += increment;
-        if (current >= value) {
-          setAnimatedValue(value);
-          clearInterval(counter);
-        } else {
-          setAnimatedValue(Math.floor(current));
-        }
-      }, duration / steps);
-      
-      return () => clearInterval(counter);
-    }, delay);
-    
-    return () => clearTimeout(timer);
-  }, [value, delay]);
-
-  return (
-    <Card className="group relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-cyan-100/50 hover:-translate-y-1 border-0 bg-white/90 backdrop-blur-sm">
-      <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none" />
-      <CardHeader className="pb-3">
-        <div className={`w-12 h-12 rounded-xl ${color} flex items-center justify-center text-white mb-3 transition-transform group-hover:scale-110`}>
-          {icon}
-        </div>
-        <p className="text-sm font-medium text-gray-600">{title}</p>
-      </CardHeader>
-      <CardContent className="pt-0">
-        <div className="space-y-2">
-          <div className="text-3xl font-bold text-gray-900 tabular-nums">
-            {animatedValue.toLocaleString()}
-          </div>
-          <p className="text-sm text-gray-500">{subtitle}</p>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
-
-function TeamMemberCard({ member }: { member: TeamMember }) {
-  return (
-    <Card className="group overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white/90 backdrop-blur-sm border-0">
-      <CardContent className="p-6">
-        <div className="flex flex-col items-center text-center">
-          <div className="relative mb-4">
-            <img
-              src={member.image}
-              alt={member.name}
-              className="w-20 h-20 rounded-full object-cover ring-4 ring-white shadow-lg transition-transform group-hover:scale-105"
-            />
-          </div>
-          <h3 className="font-semibold text-gray-900 mb-1">{member.name}</h3>
-          <p className="text-sm text-gray-600 mb-3">{member.role}</p>
-          <Badge className={`${member.badgeColor} text-white border-0 text-xs px-3 py-1`}>
-            {member.department}
-          </Badge>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
 
 function App() {
   return (
@@ -212,41 +78,7 @@ function App() {
         </div>
 
         {/* Metrics Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          <MetricCard
-            icon={<FileCheck className="w-6 h-6" />}
-            title="Обработанных заявок"
-            value={7145}
-            delay={0}
-            color="bg-gradient-to-br from-cyan-400 to-cyan-500"
-          />
-          
-          <MetricCard
-            icon={<FolderCheck className="w-6 h-6" />}
-            title="Завершенных проектов"
-            value={127}
-            delay={200}
-            color="bg-gradient-to-br from-cyan-400 to-cyan-500"
-          />
-          
-          <MetricCard
-            icon={<Clock className="w-6 h-6" />}
-            title="Часов работы"
-            value={18543}
-            subtitle="Работы в проектах"
-            delay={400}
-            color="bg-gradient-to-br from-cyan-400 to-cyan-500"
-          />
-          
-          <MetricCard
-            icon={<Users className="w-6 h-6" />}
-            title="Активных участников"
-            value={42}
-            subtitle="Члены команды"
-            delay={600}
-            color="bg-gradient-to-br from-cyan-400 to-cyan-500"
-          />
-        </div>
+        <MetricsGrid />
 
         {/* Chart Section */}
         <div className="mb-12">
@@ -313,16 +145,7 @@ function App() {
         </div>
 
         {/* Team Section */}
-        <div className="mb-12">
-          <h3 className="text-xl font-semibold text-gray-900 mb-6">
-            Наша команда
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
-            {teamMembers.map((member, index) => (
-              <TeamMemberCard key={index} member={member} />
-            ))}
-          </div>
-        </div>
+        <TeamSection />
 
         {/* Footer Section */}
         <div className="pt-8 border-t border-gray-200/50">
