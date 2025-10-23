@@ -1,20 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { FileCheck, FolderCheck, Clock, Users, TrendingUp, BarChart3, Phone, Ticket } from 'lucide-react';
 import { useMetrics } from '@/hooks/useMetrics';
 import { MetricCard } from './MetricCard';
-
-const measurementIconMap: Record<string, { icon: JSX.Element; color: string }> = {
-  'часов': { icon: <Clock className="w-6 h-6" />, color: 'bg-gradient-to-br from-purple-400 to-purple-500' },
-  'мероприятиях': { icon: <Users className="w-6 h-6" />, color: 'bg-gradient-to-br from-green-400 to-green-500' },
-  'участникам мероприятий': { icon: <Users className="w-6 h-6" />, color: 'bg-gradient-to-br from-green-400 to-green-500' },
-  'заявок': { icon: <FileCheck className="w-6 h-6" />, color: 'bg-gradient-to-br from-blue-400 to-blue-500' },
-  'заявкам': { icon: <FileCheck className="w-6 h-6" />, color: 'bg-gradient-to-br from-blue-400 to-blue-500' },
-  'задачам': { icon: <FolderCheck className="w-6 h-6" />, color: 'bg-gradient-to-br from-cyan-400 to-cyan-500' },
-  'звонков': { icon: <Phone className="w-6 h-6" />, color: 'bg-gradient-to-br from-orange-400 to-orange-500' },
-  'обращений': { icon: <Ticket className="w-6 h-6" />, color: 'bg-gradient-to-br from-pink-400 to-pink-500' },
-  'по умолчанию': { icon: <BarChart3 className="w-6 h-6" />, color: 'bg-gray-400' },
-};
 
 export function MetricsGrid() {
   const { metrics, loading, error } = useMetrics();
@@ -58,7 +45,6 @@ export function MetricsGrid() {
         return (
           <MetricCard
             key={metric.monthmetric_id}
-            icon={iconConfig.icon}
             title={metric.metric_name || 'Неизвестная метрика'}
             value={metric.value || 0}
             subtitle={measurement}
