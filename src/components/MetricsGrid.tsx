@@ -48,7 +48,6 @@ export function MetricsGrid() {
             value={metric.value || 0}
             subtitle={measurement}
             delay={index * 200}
-            color={iconConfig.color}
           />
         );
       })}
