@@ -120,10 +120,10 @@ export function useMetrics() {
 
         // Transform data
         const transformedMetrics: MetricWithDetails[] = monthlyMetrics.map(metric => ({
-          ...metric,
-          metric_name: metric.metrics[0]?.metric || 'Неизвестная метрика',
-          measurement: metric.metrics[0]?.measurement || ''
-        }));
+        ...metric,
+        metric_name: metric.metrics[0]?.metric || 'Неизвестная метрика',
+        measurement: metric.metrics[0]?.measurement || ''
+      }));
 
         setMetrics(transformedMetrics);
 
@@ -205,8 +205,8 @@ export function useMetrics() {
           
           // Initialize all selected metrics with 0 for this month
           selectedMetrics.forEach(metric => {
-            if (metric.metrics?.measurement) {
-              chartDataMap[month.month][metric.metrics.measurement] = 0;
+            if (metric.metrics[0]?.measurement) {
+              chartDataMap[month.month][metric.metrics[0]?.measurement] = 0;
             }
           });
         });
