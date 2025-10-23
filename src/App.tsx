@@ -63,13 +63,6 @@ function App() {
           </h2>
         </div>
 
-        {/* Key Metrics Section */}
-        <div className="mb-8">
-          <h3 className="text-lg font-semibold text-gray-700 mb-6">
-            Ключевые показатели
-          </h3>
-        </div>
-
         {/* Metrics Grid */}
         <MetricsGrid />
 
