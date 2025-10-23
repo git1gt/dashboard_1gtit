@@ -45,6 +45,7 @@ export function MetricsGrid() {
         return (
           <MetricCard
             key={metric.monthmetric_id}
+            icon={iconConfig.icon}
             title={metric.metric_name || 'Неизвестная метрика'}
             value={metric.value || 0}
             subtitle={measurement}
