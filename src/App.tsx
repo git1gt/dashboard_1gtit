@@ -66,7 +66,7 @@ function App() {
         {/* Metrics Grid */}
         <MetricsGrid />
 
-        {/* Chart Section */}
+        {/* Chart Section 
         <div className="mb-12">
           <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg">
             <CardHeader className="pb-4">
@@ -138,6 +138,7 @@ function App() {
             </CardContent>
           </Card>
         </div>
+        */}
 
         {/* Team Section */}
         <TeamSection />
