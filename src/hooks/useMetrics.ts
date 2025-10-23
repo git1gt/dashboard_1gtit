@@ -34,7 +34,7 @@ export function useMetrics() {
         if (yearError && yearError.code !== 'PGRST116') {
           console.error('Error fetching year:', yearError);
         }
-        
+
         if (!yearData) {
           setError('Ошибка получения данных года');
           return;
@@ -46,32 +46,32 @@ export function useMetrics() {
           .select('month_id')
           .eq('month_id', currentMonthId)
           .maybeSingle();
-        
+
         if (monthError && monthError.code !== 'PGRST116') {
           console.error('Error fetching month:', monthError);
         }
-        
+
         let finalMonthData = monthData;
-        
+
         // Если данных нет — пробуем предыдущий месяц
         if (!monthData) {
           const prevMonthId = currentMonthId === 1 ? 12 : currentMonthId - 1;
-        
+
           const { data: prevMonthData, error: prevMonthError } = await supabase
             .from('months')
             .select('month_id')
             .eq('month_id', prevMonthId)
             .maybeSingle();
-        
+
           if (prevMonthError && prevMonthError.code !== 'PGRST116') {
             console.error('Error fetching previous month:', prevMonthError);
           }
-        
+
           if (!prevMonthData) {
             setError('Ошибка получения данных месяца');
             return;
           }
-        
+
           finalMonthData = prevMonthData;
         }
 
@@ -86,7 +86,7 @@ export function useMetrics() {
         if (monthYearError && monthYearError.code !== 'PGRST116') {
           console.error('Error fetching month_in_year:', monthYearError);
         }
-        
+
         if (!monthYearData) {
           setError('Нет данных за этот месяц');
           return;
@@ -110,7 +110,7 @@ export function useMetrics() {
         if (metricsError && metricsError.code !== 'PGRST116') {
           console.error('Error fetching metrics:', metricsError);
         }
-        
+
         if (!monthlyMetrics || monthlyMetrics.length === 0) {
           setError('Ошибка получения метрик');
           return;
@@ -140,7 +140,7 @@ export function useMetrics() {
         const { data: allMonths, error: monthsError } = await supabase
           .from('months')
           .select('month_id, month')
-          .order('month_id');
+          .order('month_id');a
 
         if (monthsError && monthsError.code !== 'PGRST116') {
           console.error('Error fetching all months:', monthsError);
@@ -202,8 +202,8 @@ export function useMetrics() {
           
           // Initialize all selected metrics with 0 for this month
           selectedMetrics.forEach(metric => {
-            if (metric.metrics[0]?.measurement) {
-              chartDataMap[month.month][metric.metrics[0]?.measurement] = 0;
+            if (metric.metrics?.measurement) {
+              chartDataMap[month.month][metric.metrics.measurement] = 0;
             }
           });
         });
@@ -215,7 +215,7 @@ export function useMetrics() {
             if (monthInYear) {
               const month = allMonths.find(m => m.month_id === monthInYear.month_id);
               if (month && metric.metrics?.measurement) {
-                chartDataMap[month.month][metric.metrics.measurement] = metric.value || 0;;
+                chartDataMap[month.month][metric.metrics.measurement] = metric.value || 0;
               }
             }
           });
