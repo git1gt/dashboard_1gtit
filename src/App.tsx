@@ -59,11 +59,8 @@ function App() {
         {/* Title Section */}
         <div className="mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-2">
-            Показатели 1GT.IT
+             Что мы сделали за 2025 год
           </h2>
-          <p className="text-lg text-gray-600">
-            Что мы сделали за 2025 год
-          </p>
         </div>
 
         {/* Key Metrics Section */}
