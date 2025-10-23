@@ -17,7 +17,7 @@ import {
   ResponsiveContainer
 } from 'recharts';
 
-const colors = ['#06b6d4', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444'];
+// const colors = ['#06b6d4', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444'];
 
 function App() {
   const { chartData, loading: chartLoading } = useMetrics();
