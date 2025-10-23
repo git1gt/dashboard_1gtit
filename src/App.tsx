@@ -1,6 +1,12 @@
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { TrendingUp } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { 
+  TrendingUp,
+  Building2
+} from 'lucide-react';
 import { MetricsGrid } from '@/components/MetricsGrid';
 import { TeamSection } from '@/components/TeamSection';
 import { useMetrics } from '@/hooks/useMetrics';
