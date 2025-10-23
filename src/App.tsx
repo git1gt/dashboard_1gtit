@@ -1,9 +1,14 @@
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { TrendingUp } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { 
+  TrendingUp,
+  Building2
+} from 'lucide-react';
 import { MetricsGrid } from '@/components/MetricsGrid';
 import { TeamSection } from '@/components/TeamSection';
-import { useMetrics } from '@/hooks/useMetrics';
 import {
   LineChart,
   Line,
@@ -14,20 +19,22 @@ import {
   ResponsiveContainer
 } from 'recharts';
 
-const colors = ['#06b6d4', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444'];
+const chartData = [
+  { month: 'Янв', value: 5234 },
+  { month: 'Фев', value: 5789 },
+  { month: 'Мар', value: 6234 },
+  { month: 'Апр', value: 6543 },
+  { month: 'Май', value: 6789 },
+  { month: 'Июн', value: 6934 },
+  { month: 'Июл', value: 7012 },
+  { month: 'Авг', value: 8234 },
+  { month: 'Сен', value: 8567 },
+  { month: 'Окт', value: 8934 },
+  { month: 'Ноя', value: 9123 },
+  { month: 'Дек', value: 9456 }
+];
 
 function App() {
-  const { chartData, loading: chartLoading } = useMetrics();
-
-  // Get unique measurements for chart lines
-  const measurements = chartData.length > 0 
-    ? Array.from(new Set(
-        chartData.flatMap(item => 
-          Object.keys(item).filter(key => key !== 'month' && key !== 'month_name')
-        )
-      ))
-    : [];
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-cyan-50/30">
       {/* Header */}
@@ -80,68 +87,59 @@ function App() {
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-1">
-                    Динамика показателей
+                    Динамика обработанных заявок
                   </h3>
                   <p className="text-sm text-gray-600">
                     Помесячная статистика за 2025 год
                   </p>
                 </div>
+                <Tabs defaultValue="requests" className="w-auto">
+                  <TabsList className="grid w-full grid-cols-4 bg-gray-100">
+                    <TabsTrigger value="requests" className="text-xs">Заявки</TabsTrigger>
+                    <TabsTrigger value="projects" className="text-xs">Проекты</TabsTrigger>
+                    <TabsTrigger value="hours" className="text-xs">Часы</TabsTrigger>
+                    <TabsTrigger value="team" className="text-xs">Команда</TabsTrigger>
+                  </TabsList>
+                </Tabs>
               </div>
             </CardHeader>
             <CardContent>
-              {chartLoading ? (
-                <div className="h-80 flex items-center justify-center">
-                  <div className="text-gray-500">Загрузка данных графика...</div>
-                </div>
-              ) : chartData.length === 0 ? (
-                <div className="h-80 flex items-center justify-center">
-                  <div className="text-gray-500">Нет данных для отображения</div>
-                </div>
-              ) : (
-                <div className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={chartData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                      <XAxis 
-                        dataKey="month" 
-                        axisLine={false}
-                        tickLine={false}
-                        tick={{ fontSize: 12, fill: '#666' }}
-                      />
-                      <YAxis 
-                        axisLine={false}
-                        tickLine={false}
-                        tick={{ fontSize: 12, fill: '#666' }}
-                      />
-                      <Tooltip 
-                        contentStyle={{
-                          backgroundColor: 'white',
-                          border: 'none',
-                          borderRadius: '8px',
-                          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                        }}
-                        labelStyle={{ color: '#374151' }}
-                        formatter={(value: any, name: string) => [
-                          typeof value === 'number' ? value.toLocaleString() : value,
-                          name
-                        ]}
-                      />
-                      {measurements.map((measurement, index) => (
-                        <Line 
-                          key={measurement}
-                          type="monotone" 
-                          dataKey={measurement}
-                          stroke={colors[index % colors.length]}
-                          strokeWidth={3}
-                          dot={{ fill: colors[index % colors.length], strokeWidth: 2, r: 4 }}
-                          activeDot={{ r: 6, stroke: colors[index % colors.length], strokeWidth: 2 }}
-                          connectNulls={false}
-                        />
-                      ))}
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-              )}
+              <div className="h-80">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                    <XAxis 
+                      dataKey="month" 
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#666' }}
+                    />
+                    <YAxis 
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#666' }}
+                      domain={[0, 10000]}
+                    />
+                    <Tooltip 
+                      contentStyle={{
+                        backgroundColor: 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                      }}
+                      labelStyle={{ color: '#374151' }}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="value" 
+                      stroke="#06b6d4" 
+                      strokeWidth={3}
+                      dot={{ fill: '#06b6d4', strokeWidth: 2, r: 4 }}
+                      activeDot={{ r: 6, stroke: '#06b6d4', strokeWidth: 2 }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
             </CardContent>
           </Card>
         </div>
