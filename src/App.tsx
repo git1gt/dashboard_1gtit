@@ -17,7 +17,7 @@ import {
   ResponsiveContainer
 } from 'recharts';
 
-// const colors = ['#06b6d4', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444'];
+const colors = ['#06b6d4', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444'];
 
 function App() {
   const { chartData, loading: chartLoading } = useMetrics();
@@ -59,14 +59,24 @@ function App() {
         {/* Title Section */}
         <div className="mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-2">
-            Что мы сделали за 2025 год
+            Показатели 1GT.IT
           </h2>
+          <p className="text-lg text-gray-600">
+            Что мы сделали за 2025 год
+          </p>
+        </div>
+
+        {/* Key Metrics Section */}
+        <div className="mb-8">
+          <h3 className="text-lg font-semibold text-gray-700 mb-6">
+            Ключевые показатели
+          </h3>
         </div>
 
         {/* Metrics Grid */}
         <MetricsGrid />
 
-        {/* Chart Section 
+        {/* Chart Section */}
         <div className="mb-12">
           <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg">
             <CardHeader className="pb-4">
@@ -138,7 +148,6 @@ function App() {
             </CardContent>
           </Card>
         </div>
-        */}
 
         {/* Team Section */}
         <TeamSection />
