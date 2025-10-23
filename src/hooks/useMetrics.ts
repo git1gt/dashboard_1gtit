@@ -221,6 +221,8 @@ export function useMetrics() {
               }
             }
           });
+        }
+
         // Convert to array and sort by month order
         const chartDataArray = allMonths.map(month => chartDataMap[month.month]);
 
