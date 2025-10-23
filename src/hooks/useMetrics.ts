@@ -210,14 +210,15 @@ export function useMetrics() {
 
         // Fill in metric values
         if (allMetricsData && allMetricsData.length > 0) {
-            allMetricsData.forEach(metric => {
-          const monthInYear = monthsInYear.find(m => m.monthyear_id === metric.monthyear_id);
-          if (monthInYear) {
-            const month = allMonths.find(m => m.month_id === monthInYear.month_id);
-            if (month && metric.metrics?.measurement) {
-              chartDataMap[month.month][metric.metrics.measurement] = metric.value || 0;
-            if (month && metric.metrics[0]?.measurement) {
-              chartDataMap[month.month][metric.metrics[0]?.measurement] = metric.value || 0;
+          allMetricsData.forEach(metric => {
+            const monthInYear = monthsInYear.find(m => m.monthyear_id === metric.monthyear_id);
+            if (monthInYear) {
+              const month = allMonths.find(m => m.month_id === monthInYear.month_id);
+              if (month && metric.metrics?.measurement) {
+                chartDataMap[month.month][metric.metrics.measurement] = metric.value || 0;
+              if (month && metric.metrics[0]?.measurement) {
+                chartDataMap[month.month][metric.metrics[0]?.measurement] = metric.value || 0;
+              }
             }
           });
         }
