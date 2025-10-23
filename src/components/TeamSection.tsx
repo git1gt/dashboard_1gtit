@@ -3,11 +3,14 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useTeam } from '@/hooks/useTeam';
 
-// Generate placeholder avatar URLs
-const generateAvatarUrl = (index: number) => {
-  const seed = `employee-${index}`;
-  return `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf`;
-};
+const avatarImages = [
+  'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
+  'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
+  'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
+  'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
+  'https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop',
+  'https://images.pexels.com/photos/1181424/pexels-photo-1181424.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop'
+];
 
 const badgeColors = [
   'bg-blue-500',
@@ -25,7 +28,7 @@ function TeamMemberCard({ member, index }: { member: any; index: number }) {
         <div className="flex flex-col items-center text-center">
           <div className="relative mb-4">
             <img
-              src={generateAvatarUrl(index)}
+              src={avatarImages[index % avatarImages.length]}
               alt={member.full_name}
               className="w-20 h-20 rounded-full object-cover ring-4 ring-white shadow-lg transition-transform group-hover:scale-105"
             />
