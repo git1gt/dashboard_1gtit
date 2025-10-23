@@ -80,7 +80,7 @@ export function useMetrics() {
           .from('month_in_year')
           .select('monthyear_id')
           .eq('year_id', yearData.year_id)
-          .eq('month_id', finalMonthData.month_id)
+          .eq('month_id', finalMonthData?.month_id)
           .maybeSingle();
 
         if (monthYearError && monthYearError.code !== 'PGRST116') {
@@ -97,6 +97,8 @@ export function useMetrics() {
           .from('monthly_metrics')
           .select(`
             monthmetric_id,
+            monthyear_id,
+            created_at,
             metric_id,
             value,
             metrics (
@@ -117,10 +119,24 @@ export function useMetrics() {
         }
 
         // Transform data
-        const transformedMetrics: MetricWithDetails[] = monthlyMetrics.map(metric => ({
-          ...metric,
-          metric_name: metric.metrics?.metric || 'Неизвестная метрика'
-        }));
+        const transformedMetrics: MetricWithDetails[] = monthlyMetrics.map((metric) => {
+          const metricDetail = metric.metrics?.[0] || { metric: 'Неизвестная метрика', measurement: '' };
+        
+          return {
+            monthmetric_id: metric.monthmetric_id,
+            monthyear_id: metric.monthyear_id || 0, // или другое дефолтное значение
+            metric_id: metric.metric_id,
+            value: metric.value || 0,
+            metrics: {
+              metric_id: metric.metric_id,
+              metric: metricDetail.metric,
+              measurement: metricDetail.measurement,
+              created_at: metric.created_at || new Date().toISOString(),
+            },
+            metric_name: metricDetail.metric,
+            created_at: metric.created_at || new Date().toISOString(),
+          };
+        });
 
         setMetrics(transformedMetrics);
 
@@ -214,8 +230,8 @@ export function useMetrics() {
             const monthInYear = monthsInYear.find(m => m.monthyear_id === metric.monthyear_id);
             if (monthInYear) {
               const month = allMonths.find(m => m.month_id === monthInYear.month_id);
-              if (month && metric.metrics?.measurement) {
-                chartDataMap[month.month][metric.metrics.measurement] = metric.value || 0;
+              if (month && metric.metrics[0]?.measurement) {
+                chartDataMap[month.month][metric.metrics[0]?.measurement] = metric.value || 0;
               }
             }
           });
