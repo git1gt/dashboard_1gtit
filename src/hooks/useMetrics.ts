@@ -140,7 +140,7 @@ export function useMetrics() {
         const { data: allMonths, error: monthsError } = await supabase
           .from('months')
           .select('month_id, month')
-          .order('month_id');a
+          .order('month_id');
 
         if (monthsError && monthsError.code !== 'PGRST116') {
           console.error('Error fetching all months:', monthsError);
