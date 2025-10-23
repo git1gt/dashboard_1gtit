@@ -33,16 +33,13 @@ export function MetricCard({ icon, title, value, subtitle, delay = 0, color }: M
       return () => clearInterval(counter);
     }, delay);
     
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timer);я
   }, [value, delay]);
 
   return (
     <Card className="group relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-cyan-100/50 hover:-translate-y-1 border-0 bg-white/90 backdrop-blur-sm">
       <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent pointer-events-none" />
       <CardHeader className="pb-3">
-        <div className={`w-12 h-12 rounded-xl ${color} flex items-center justify-center text-white mb-3 transition-transform group-hover:scale-110`}>
-          {icon}
-        </div>
         <p className="text-sm font-medium text-gray-600">{title}</p>
       </CardHeader>
       <CardContent className="pt-0">
