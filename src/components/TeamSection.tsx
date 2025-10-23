@@ -6,7 +6,7 @@ import { useTeam } from '@/hooks/useTeam';
 // Generate placeholder avatar URLs
 const generateAvatarUrl = (index: number) => {
   const seed = `employee-${index}`;
-  return `https://api.dicebear.com/7.x/thumbs/svg?seed=${seed}&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf`;
+  return `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf`;
 };
 
 const badgeColors = [
