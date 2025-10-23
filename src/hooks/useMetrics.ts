@@ -119,24 +119,11 @@ export function useMetrics() {
         }
 
         // Transform data
-        const transformedMetrics: MetricWithDetails[] = monthlyMetrics.map((metric) => {
-          const metricDetail = metric.metrics?.[0] || { metric: 'Неизвестная метрика', measurement: '' };
-        
-          return {
-            monthmetric_id: metric.monthmetric_id,
-            monthyear_id: metric.monthyear_id || 0, // или другое дефолтное значение
-            metric_id: metric.metric_id,
-            value: metric.value || 0,
-            metrics: {
-              metric_id: metric.metric_id,
-              metric: metricDetail.metric,
-              measurement: metricDetail.measurement,
-              created_at: metric.created_at || new Date().toISOString(),
-            },
-            metric_name: metricDetail.metric,
-            created_at: metric.created_at || new Date().toISOString(),
-          };
-        });
+        const transformedMetrics: MetricWithDetails[] = monthlyMetrics.map(metric => ({
+          ...metric,
+          metric_name: metric.metrics[0]?.metric || 'Неизвестная метрика',
+          measurement: metric.metrics[0]?.measurement || ''
+        }));
 
         setMetrics(transformedMetrics);
 
