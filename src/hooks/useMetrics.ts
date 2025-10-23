@@ -214,8 +214,8 @@ export function useMetrics() {
             const monthInYear = monthsInYear.find(m => m.monthyear_id === metric.monthyear_id);
             if (monthInYear) {
               const month = allMonths.find(m => m.month_id === monthInYear.month_id);
-              if (month && metric.metrics?.measurement) {
-                chartDataMap[month.montsh][metric.metrics.measurement] = metric.value || 0;
+            if (month && metric.metrics?.measurement) {
+                chartDataMap[month.month][metric.metrics.measurement] = metric.value || 0;
               }
             }
           });
