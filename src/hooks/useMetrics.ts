@@ -219,7 +219,6 @@ export function useMetrics() {
             if (month && metric.metrics[0]?.measurement) {
               chartDataMap[month.month][metric.metrics[0]?.measurement] = metric.value || 0;
             }
-            }
           });
         }
 
