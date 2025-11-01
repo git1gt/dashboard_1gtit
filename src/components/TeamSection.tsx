@@ -58,20 +58,20 @@ export function TeamSection() {
     );
   }
 
-if (!teamsByMetrics || teamsByMetrics.length === 0) {
-  return (
-    <div className="mb-12">
-      <h3 className="text-xl font-semibold text-gray-900 mb-6">
-        Сотрудники по метрикам
-      </h3>
-      <Card className="bg-gray-50 border-gray-200">
-        <CardContent className="p-6 text-center">
-          <p className="text-gray-600">Нет данных о сотрудниках</p>
-        </CardContent>
-      </Card>
-    </div>
-  );
-}
+  if (teamsByMetrics.length === 0) {
+    return (
+      <div className="mb-12">
+        <h3 className="text-xl font-semibold text-gray-900 mb-6">
+          Команды по метрикам
+        </h3>
+        <Card className="bg-gray-50 border-gray-200">
+          <CardContent className="p-6 text-center">
+            <p className="text-gray-600">Нет команд, участвующих в метриках</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="mb-12">
