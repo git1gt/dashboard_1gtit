@@ -21,7 +21,8 @@ export function useMetrics() {
 
         // Get current month and year
         const currentDate = new Date();
-        const currentMonthId = currentDate.getMonth() + 1;
+        const currentMonthId = 10;
+        //const currentMonthId = currentDate.getMonth() + 1;
         const currentYear = 2025;
 
         // First, get the year_id for 2025
@@ -84,7 +85,7 @@ export function useMetrics() {
           .maybeSingle();
 
         if (monthYearError && monthYearError.code !== 'PGRST116') {
-          console.error('Error fetching month_fin_year:', monthYearError);
+          console.error('Error fetching month_in_year:', monthYearError);
         }
 
         if (!monthYearData) {
