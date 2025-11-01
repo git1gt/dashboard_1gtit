@@ -1,74 +1,112 @@
 import { useState, useEffect } from 'react';
-import { supabase, type EmployeeWithDetails } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase';
+
+interface TeamByMetric {
+  metric_name: string;
+  team_name: string;
+  employees: Array<{
+    employee_id: number;
+    full_name: string;
+  }>;
+}
 
 export function useTeam() {
-  const [team, setTeam] = useState<EmployeeWithDetails[]>([]);
+  const [teamsByMetrics, setTeamsByMetrics] = useState<TeamByMetric[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    async function fetchTeam() {
+    async function fetchTeamsByMetrics() {
       try {
         setLoading(true);
         setError(null);
 
-        // Get 6 random employees
-        const { data: employees, error: employeesError } = await supabase
-          .from('employees')
-          .select('employee_id, full_name')
-          .limit(6);
+        // Get teams that participated in metrics through metric_by_team
+        const { data: metricTeams, error: metricTeamsError } = await supabase
+          .from('metric_by_team')
+          .select(`
+            team_id,
+            monthly_metrics!inner (
+              metric_id,
+              metrics!inner (
+                metric
+              )
+            )
+          `);
 
-        if (employeesError && employeesError.code !== 'PGRST116') {
-          console.error('Error fetching employees:', employeesError);
+        if (metricTeamsError && metricTeamsError.code !== 'PGRST116') {
+          console.error('Error fetching metric teams:', metricTeamsError);
         }
-        
-        if (!employees || employees.length === 0) {
-          setError('Ошибка получения данных сотрудников');
+
+        if (!metricTeams || metricTeams.length === 0) {
+          setError('Нет команд, участвующих в метриках');
           return;
         }
 
-        // For each employee, get their position and team
-        const teamWithDetails = await Promise.all(
-          employees.map(async (employee) => {
-            // Get position
-            const { data: positionData, error: positionError } = await supabase
-              .from('employee_by_position')
-              .select(`
-                positions (
-                  position
-                )
-              `)
-              .eq('employee_id', employee.employee_id)
-              .maybeSingle();
-
-            if (positionError && positionError.code !== 'PGRST116') {
-              console.error('Error fetching position:', positionError);
+        // Group by metric and get team info
+        const metricsMap = new Map<string, Set<number>>();
+        
+        metricTeams.forEach(item => {
+          const metricName = item.monthly_metrics?.metrics?.metric;
+          if (metricName && item.team_id) {
+            if (!metricsMap.has(metricName)) {
+              metricsMap.set(metricName, new Set());
             }
+            metricsMap.get(metricName)!.add(item.team_id);
+          }
+        });
 
-            // Get team
-            const { data: teamData, error: teamError } = await supabase
+        // For each metric, get team details and employees
+        const teamsByMetricsData: TeamByMetric[] = [];
+
+        for (const [metricName, teamIds] of metricsMap.entries()) {
+          const teamIdsArray = Array.from(teamIds);
+
+          // Get team names
+          const { data: teams, error: teamsError } = await supabase
+            .from('teams')
+            .select('team_id, team')
+            .in('team_id', teamIdsArray);
+
+          if (teamsError && teamsError.code !== 'PGRST116') {
+            console.error('Error fetching teams:', teamsError);
+            continue;
+          }
+
+          if (!teams || teams.length === 0) {
+            continue;
+          }
+
+          // For each team, get employees
+          for (const team of teams) {
+            const { data: employeesInTeam, error: employeesError } = await supabase
               .from('employee_in_team')
               .select(`
-                teams (
-                  team
+                employees (
+                  employee_id,
+                  full_name
                 )
               `)
-              .eq('employee_id', employee.employee_id)
-              .maybeSingle();
+              .eq('team_id', team.team_id);
 
-            if (teamError && teamError.code !== 'PGRST116') {
-              console.error('Error fetching team:', teamError);
+            if (employeesError && employeesError.code !== 'PGRST116') {
+              console.error('Error fetching employees:', employeesError);
+              continue;
             }
 
-            return {
-              ...employee,
-              position: positionData?.positions?.position || 'Не указано',
-              team: teamData?.teams?.team || 'Не указано'
-            };
-          })
-        );
+            const employees = employeesInTeam?.map(item => item.employees).filter(Boolean) || [];
 
-        setTeam(teamWithDetails);
+            if (employees.length > 0) {
+              teamsByMetricsData.push({
+                metric_name: metricName,
+                team_name: team.team,
+                employees: employees
+              });
+            }
+          }
+        }
+
+        setTeamsByMetrics(teamsByMetricsData);
       } catch (err) {
         console.error('Unexpected error:', err);
         setError('Произошла неожиданная ошибка');
@@ -77,8 +115,8 @@ export function useTeam() {
       }
     }
 
-    fetchTeam();
+    fetchTeamsByMetrics();
   }, []);
 
-  return { team, loading, error };
+  return { teamsByMetrics, loading, error };
 }
