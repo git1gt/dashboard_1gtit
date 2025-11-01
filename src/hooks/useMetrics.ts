@@ -84,7 +84,7 @@ export function useMetrics() {
           .maybeSingle();
 
         if (monthYearError && monthYearError.code !== 'PGRST116') {
-          console.error('Error fetching month_in_year:', monthYearError);
+          console.error('Error fetching month_fin_year:', monthYearError);
         }
 
         if (!monthYearData) {
@@ -98,7 +98,7 @@ export function useMetrics() {
           .select(`
             monthmetric_id,
             metric_id,
-           azz value,
+            value,
             metrics (
               metric,
               measurement
