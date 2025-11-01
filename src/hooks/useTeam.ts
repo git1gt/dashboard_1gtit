@@ -26,11 +26,8 @@ export function useTeam() {
           .from('metric_by_team')
           .select(`
             team_id,
-            monthly_metrics!inner (
-              metric_id,
-              metrics!inner (
-                metric
-              )
+            metrics!inner (
+              metric
             )
           `);
 
@@ -47,7 +44,7 @@ export function useTeam() {
         const metricsMap = new Map<string, Set<number>>();
         
         metricTeams.forEach(item => {
-          const metricName = item.monthly_metrics?.metrics?.metric;
+          const metricName = item.metrics?.metric;
           if (metricName && item.team_id) {
             if (!metricsMap.has(metricName)) {
               metricsMap.set(metricName, new Set());
