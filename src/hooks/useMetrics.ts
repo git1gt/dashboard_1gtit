@@ -98,7 +98,7 @@ export function useMetrics() {
           .select(`
             monthmetric_id,
             metric_id,
-            value,
+           azz value,
             metrics (
               metric,
               measurement
