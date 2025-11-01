@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 
-interface EmployeeByMetric {
+interface TeamMetricData {
   metric_name: string;
+  team_name: string;
   employees: Array<{
     employee_id: number;
     full_name: string;
@@ -10,12 +11,12 @@ interface EmployeeByMetric {
 }
 
 export function useTeam() {
-  const [employeesByMetrics, setEmployeesByMetrics] = useState<EmployeeByMetric[]>([]);
+  const [teamsByMetrics, setTeamsByMetrics] = useState<TeamMetricData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    async function fetchEmployeesByMetrics() {
+    async function fetchTeamsByMetrics() {
       try {
         setLoading(true);
         setError(null);
@@ -25,6 +26,9 @@ export function useTeam() {
           .from('metric_by_team')
           .select(`
             team_id,
+            teams!inner (
+              team
+            ),
             metrics!inner (
               metric
             )
@@ -39,58 +43,43 @@ export function useTeam() {
           return;
         }
 
-        // Группируем по метрикам
-        const metricsMap = new Map<string, Set<number>>();
+        const teamsByMetricsData: TeamMetricData[] = [];
 
-        metricTeams.forEach(item => {
+        for (const item of metricTeams) {
           const metricName = item.metrics?.metric;
-          if (metricName && item.team_id) {
-            if (!metricsMap.has(metricName)) {
-              metricsMap.set(metricName, new Set());
+          const teamName = item.teams?.team;
+          
+          if (metricName && teamName && item.team_id) {
+            // Получаем всех сотрудников этой команды
+            const { data: employeesData, error: employeesError } = await supabase
+              .from('employee_in_team')
+              .select(`
+                employees (
+                  employee_id,
+                  full_name
+                )
+              `)
+              .eq('team_id', item.team_id);
+
+            if (employeesError && employeesError.code !== 'PGRST116') {
+              console.error('Error fetching employees:', employeesError);
+              continue;
             }
-            metricsMap.get(metricName)!.add(item.team_id);
-          }
-        });
 
-        const employeesByMetricsData: EmployeeByMetric[] = [];
+            // Извлекаем сотрудников в один список
+            const employees = employeesData?.map(emp => emp.employees).filter(Boolean) || [];
 
-        for (const [metricName, teamIds] of metricsMap.entries()) {
-          const teamIdsArray = Array.from(teamIds);
-
-          // Получаем всех сотрудников, связанных с этими командами
-          const { data: employeesData, error: employeesError } = await supabase
-            .from('employee_in_team')
-            .select(`
-              employees (
-                employee_id,
-                full_name
-              )
-            `)
-            .in('team_id', teamIdsArray);
-
-          if (employeesError && employeesError.code !== 'PGRST116') {
-            console.error('Error fetching employees:', employeesError);
-            continue;
-          }
-
-          // Извлекаем сотрудников в один список
-          const allEmployees =
-            employeesData?.map(item => item.employees).filter(Boolean) || [];
-
-          // Удаляем дубликаты по employee_id
-          const uniqueEmployees = Array.from(
-            new Map(allEmployees.map(emp => [emp.employee_id, emp])).values()
-          );
-
-          if (uniqueEmployees.length > 0) {
-            employeesByMetricsData.push({
-              metric_name: metricName,
-              employees: uniqueEmployees
-            });
+            if (employees.length > 0) {
+              teamsByMetricsData.push({
+                metric_name: metricName,
+                team_name: teamName,
+                employees: employees
+              });
+            }
           }
         }
 
-        setEmployeesByMetrics(employeesByMetricsData);
+        setTeamsByMetrics(teamsByMetricsData);
       } catch (err) {
         console.error('Unexpected error:', err);
         setError('Произошла неожиданная ошибка');
@@ -99,8 +88,8 @@ export function useTeam() {
       }
     }
 
-    fetchEmployeesByMetrics();
+    fetchTeamsByMetrics();
   }, []);
 
-  return { employeesByMetrics, loading, error };
+  return { teamsByMetrics, loading, error };
 }
