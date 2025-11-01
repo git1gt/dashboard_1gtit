@@ -4,7 +4,7 @@ import { useTeam } from '@/hooks/useTeam';
 import { Users } from 'lucide-react';
 
 export function TeamSection() {
-  const { teamsByMetrics, loading, error } = useTeam();
+  const { employeesByMetrics, loading, error } = useTeam();
 
   if (loading) {
     return (
@@ -48,7 +48,7 @@ export function TeamSection() {
     );
   }
 
-  if (!teamsByMetrics || teamsByMetrics.length === 0) {
+  if (!employeesByMetrics || employeesByMetrics.length === 0) {
     return (
       <div className="mb-12">
         <h3 className="text-xl font-semibold text-gray-900 mb-6">
@@ -69,7 +69,7 @@ export function TeamSection() {
         Сотрудники по метрикам
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {teamsByMetrics.map((metric, index) => (
+        {employeesByMetrics.map((metric, index) => (
           <Card
             key={metric.metric_name || index}
             className="group overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white/90 backdrop-blur-sm border-0"
