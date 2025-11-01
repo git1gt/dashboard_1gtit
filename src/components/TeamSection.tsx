@@ -41,7 +41,7 @@ export function TeamSection() {
                 metric.employees.map(emp => (
                   <div
                     key={emp.employee_id}
-                    className="text-sm text-gray-700 py-1 px-2 bg-gray-50 mb-5 rounded-md"
+                    className="text-sm text-gray-700 py-1 px-2 bg-gray-50 mb-2 rounded-md"
                   >
                     {emp.full_name}
                   </div>
