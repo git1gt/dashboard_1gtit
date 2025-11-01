@@ -1,120 +1,114 @@
-import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import React from 'react';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { useTeam } from '@/hooks/useTeam';
+import { Users } from 'lucide-react';
 
-interface EmployeeByMetric {
-  metric_name: string;
-  employees: Array<{
-    employee_id: number;
-    full_name: string;
-  }>;
-}
+const badgeColors = [
+  'bg-blue-500',
+  'bg-purple-500',
+  'bg-cyan-500',
+  'bg-teal-500',
+  'bg-green-500',
+  'bg-orange-500'
+];
 
-export function useTeam() {
-  const [employeesByMetrics, setEmployeesByMetrics] = useState<EmployeeByMetric[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export function TeamSection() {
+  const { teamsByMetrics, loading, error } = useTeam();
 
-  useEffect(() => {
-    async function fetchEmployeesByMetrics() {
-      try {
-        setLoading(true);
-        setError(null);
-
-        // Получаем команды, участвовавшие в метриках
-        const { data: metricTeams, error: metricTeamsError } = await supabase
-          .from('metric_by_team')
-          .select(`
-            team_id,
-            metrics!inner (
-              metric
-            )
-          `);
-
-        if (metricTeamsError && metricTeamsError.code !== 'PGRST116') {
-          console.error('Error fetching metric teams:', metricTeamsError);
-        }
-
-       if (!metricTeams || metricTeams.length === 0) {
-  // ВРЕМЕННО: показываем всех сотрудников, чтобы проверить интерфейс
-  const { data: allEmployees } = await supabase
-    .from('employees')
-    .select('employee_id, full_name');
-
-  if (allEmployees) {
-    setTeamsByMetrics([
-      {
-        metric_name: 'тестовая метрика',
-        team_name: 'тестовая команда',
-        employees: allEmployees
-      }
-    ]);
+  if (loading) {
+    return (
+      <div className="mb-12">
+        <h3 className="text-xl font-semibold text-gray-900 mb-6">
+          Команды по метрика</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[...Array(3)].map((_, index) => (
+            <Card key={index} className="animate-pulse bg-white/90 backdrop-blur-sm border-0">
+              <CardHeader className="pb-3">
+                <div className="h-6 bg-gray-200 rounded w-3/4 mb-2" />
+                <div className="h-4 bg-gray-200 rounded w-1/2" />
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  <div className="h-4 bg-gray-200 rounded w-full" />
+                  <div className="h-4 bg-gray-200 rounded w-5/6" />
+                  <div className="h-4 bg-gray-200 rounded w-4/6" />
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    );
   }
 
-  return;
-}
+  if (error) {
+    return (
+      <div className="mb-12">
+        <h3 className="text-xl font-semibold text-gray-900 mb-6">
+          Команды по метрикам
+        </h3>
+        <Card className="bg-red-50 border-red-200">
+          <CardContent className="p-6 text-center">
+            <p className="text-red-600">{error}</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
-        // Группируем по метрикам
-        const metricsMap = new Map<string, Set<number>>();
+  if (teamsByMetrics.length === 0) {
+    return (
+      <div className="mb-12">
+        <h3 className="text-xl font-semibold text-gray-900 mb-6">
+          Команды по метрикам
+        </h3>
+        <Card className="bg-gray-50 border-gray-200">
+          <CardContent className="p-6 text-center">
+            <p className="text-gray-600">Нет команд, участвующих в метриках</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
-        metricTeams.forEach(item => {
-          const metricName = item.metrics?.metric;
-          if (metricName && item.team_id) {
-            if (!metricsMap.has(metricName)) {
-              metricsMap.set(metricName, new Set());
-            }
-            metricsMap.get(metricName)!.add(item.team_id);
-          }
-        });
-
-        const employeesByMetricsData: EmployeeByMetric[] = [];
-
-        for (const [metricName, teamIds] of metricsMap.entries()) {
-          const teamIdsArray = Array.from(teamIds);
-
-          // Получаем всех сотрудников, связанных с этими командами
-          const { data: employeesData, error: employeesError } = await supabase
-            .from('employee_in_team')
-            .select(`
-              employees (
-                employee_id,
-                full_name
-              )
-            `)
-            .in('team_id', teamIdsArray);
-
-          if (employeesError && employeesError.code !== 'PGRST116') {
-            console.error('Error fetching employees:', employeesError);
-            continue;
-          }
-
-          // Извлекаем сотрудников в один список
-          const allEmployees =
-            employeesData?.map(item => item.employees).filter(Boolean) || [];
-
-          // Удаляем дубликаты по employee_id
-          const uniqueEmployees = Array.from(
-            new Map(allEmployees.map(emp => [emp.employee_id, emp])).values()
-          );
-
-          if (uniqueEmployees.length > 0) {
-            employeesByMetricsData.push({
-              metric_name: metricName,
-              employees: uniqueEmployees
-            });
-          }
-        }
-
-        setEmployeesByMetrics(employeesByMetricsData);
-      } catch (err) {
-        console.error('Unexpected error:', err);
-        setError('Произошла неожиданная ошибка');
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchEmployeesByMetrics();
-  }, []);
-
-  return { employeesByMetrics, loading, error };
+  return (
+    <div className="mb-12">
+      <h3 className="text-xl font-semibold text-gray-900 mb-6">
+        Команды по метрикам
+      </h3>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {teamsByMetrics.map((teamMetric, index) => (
+          <Card 
+            key={`${teamMetric.metric_name}-${teamMetric.team_name}}
+           className="group overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white/90 backdrop-blur-sm border-0"
+          >
+            <CardHeader className="pb-3">
+              <div className="flex items-center gap-2 mb-2">
+                <Users className="w-5 h-5 text-gray-600" />
+                <h4 className="font-semibold text-gray-900">
+                  Сотрудники, которые {teamMetric.metric_name}
+                </h4>
+              </div>
+              <Badge className={`${badgeColors[index % badgeColors.length]} text-white border-0 text-xs px-3 py-1 w-fit`}>
+                {teamMetric.team_name}
+              </Badge>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                {teamMetric.employees.map((employee) => (
+                  <div 
+                    key={employee.employee_id}
+                    className="text-sm text-gray-700 py-1 px-2 bg-gray-50 rounded-md"
+                  >
+                    {employee.full_name}
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
 }
