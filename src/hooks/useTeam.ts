@@ -34,10 +34,24 @@ export function useTeam() {
           console.error('Error fetching metric teams:', metricTeamsError);
         }
 
-        if (!metricTeams || metricTeams.length === 0) {
-          setError('Нет команд, участвующих в метриках');
-          return;
-        }
+       if (!metricTeams || metricTeams.length === 0) {
+  // ВРЕМЕННО: показываем всех сотрудников, чтобы проверить интерфейс
+  const { data: allEmployees } = await supabase
+    .from('employees')
+    .select('employee_id, full_name');
+
+  if (allEmployees) {
+    setTeamsByMetrics([
+      {
+        metric_name: 'тестовая метрика',
+        team_name: 'тестовая команда',
+        employees: allEmployees
+      }
+    ]);
+  }
+
+  return;
+}
 
         // Группируем по метрикам
         const metricsMap = new Map<string, Set<number>>();
