@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 
-interface TeamByMetric {
+interface EmployeeByMetric {
   metric_name: string;
-  team_name: string;
   employees: Array<{
     employee_id: number;
     full_name: string;
@@ -11,17 +10,17 @@ interface TeamByMetric {
 }
 
 export function useTeam() {
-  const [teamsByMetrics, setTeamsByMetrics] = useState<TeamByMetric[]>([]);
+  const [employeesByMetrics, setEmployeesByMetrics] = useState<EmployeeByMetric[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    async function fetchTeamsByMetrics() {
+    async function fetchEmployeesByMetrics() {
       try {
         setLoading(true);
         setError(null);
 
-        // Get teams that participated in metrics through metric_by_team
+        // Получаем команды, участвовавшие в метриках
         const { data: metricTeams, error: metricTeamsError } = await supabase
           .from('metric_by_team')
           .select(`
@@ -40,9 +39,9 @@ export function useTeam() {
           return;
         }
 
-        // Group by metric and get team info
+        // Группируем по метрикам
         const metricsMap = new Map<string, Set<number>>();
-        
+
         metricTeams.forEach(item => {
           const metricName = item.metrics?.metric;
           if (metricName && item.team_id) {
@@ -53,57 +52,45 @@ export function useTeam() {
           }
         });
 
-        // For each metric, get team details and employees
-        const teamsByMetricsData: TeamByMetric[] = [];
+        const employeesByMetricsData: EmployeeByMetric[] = [];
 
         for (const [metricName, teamIds] of metricsMap.entries()) {
           const teamIdsArray = Array.from(teamIds);
 
-          // Get team names
-          const { data: teams, error: teamsError } = await supabase
-            .from('teams')
-            .select('team_id, team')
+          // Получаем всех сотрудников, связанных с этими командами
+          const { data: employeesData, error: employeesError } = await supabase
+            .from('employee_in_team')
+            .select(`
+              employees (
+                employee_id,
+                full_name
+              )
+            `)
             .in('team_id', teamIdsArray);
 
-          if (teamsError && teamsError.code !== 'PGRST116') {
-            console.error('Error fetching teams:', teamsError);
+          if (employeesError && employeesError.code !== 'PGRST116') {
+            console.error('Error fetching employees:', employeesError);
             continue;
           }
 
-          if (!teams || teams.length === 0) {
-            continue;
-          }
+          // Извлекаем сотрудников в один список
+          const allEmployees =
+            employeesData?.map(item => item.employees).filter(Boolean) || [];
 
-          // For each team, get employees
-          for (const team of teams) {
-            const { data: employeesInTeam, error: employeesError } = await supabase
-              .from('employee_in_team')
-              .select(`
-                employees (
-                  employee_id,
-                  full_name
-                )
-              `)
-              .eq('team_id', team.team_id);
+          // Удаляем дубликаты по employee_id
+          const uniqueEmployees = Array.from(
+            new Map(allEmployees.map(emp => [emp.employee_id, emp])).values()
+          );
 
-            if (employeesError && employeesError.code !== 'PGRST116') {
-              console.error('Error fetching employees:', employeesError);
-              continue;
-            }
-
-            const employees = employeesInTeam?.map(item => item.employees).filter(Boolean) || [];
-
-            if (employees.length > 0) {
-              teamsByMetricsData.push({
-                metric_name: metricName,
-                team_name: team.team,
-                employees: employees
-              });
-            }
+          if (uniqueEmployees.length > 0) {
+            employeesByMetricsData.push({
+              metric_name: metricName,
+              employees: uniqueEmployees
+            });
           }
         }
 
-        setTeamsByMetrics(teamsByMetricsData);
+        setEmployeesByMetrics(employeesByMetricsData);
       } catch (err) {
         console.error('Unexpected error:', err);
         setError('Произошла неожиданная ошибка');
@@ -112,8 +99,8 @@ export function useTeam() {
       }
     }
 
-    fetchTeamsByMetrics();
+    fetchEmployeesByMetrics();
   }, []);
 
-  return { teamsByMetrics, loading, error };
+  return { employeesByMetrics, loading, error };
 }
