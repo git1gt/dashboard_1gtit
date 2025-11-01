@@ -23,7 +23,7 @@ export function TeamSection() {
   return (
     <div className="mb-12">
       <h3 className="text-xl font-semibold text-gray-900 mb-6">
-        Команды по метрикам (за выбранный месяц)
+        Кто участвовал в метриках
       </h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {employeesByMetrics.map(metric => (
