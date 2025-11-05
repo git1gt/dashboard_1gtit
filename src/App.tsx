@@ -48,7 +48,7 @@ function App() {
             <div className="ml-auto flex items-center gap-3">
               <Badge variant="secondary" className="bg-cyan-100 text-cyan-700 hover:bg-cyan-200">
                 <TrendingUp className="w-3 h-3 mr-1" />
-                {currentYear} Отчет
+                {currentYear} Отчет 
               </Badge>
             </div>
           </div>
