@@ -154,7 +154,7 @@ function App() {
                 className="h-8 w-auto opacity-80"
               />
               <div>
-                <p className="font-semibold text-gray-900">© 1GT.IT {currentYear}</p>
+                <p className="text-sm text-gray-500">© 1GT.IT {currentYear}</p>
               </div>
             </div>
             <div className="text-right">
