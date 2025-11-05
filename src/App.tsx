@@ -60,7 +60,7 @@ function App() {
         {/* Title Section */}
         <div className="mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-2">
-             Что мы сделали за 2025 год
+             Что мы сделали за {currentYear} год
           </h2>
         </div>
 
