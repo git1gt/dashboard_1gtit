@@ -145,7 +145,7 @@ function App() {
           <TeamSection />
 
           {/* Footer Section */}
-          <div className="pt-8 border-t border-gray-200/50 w-full">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col sm:flex-row items-center justify-between">
               <div className="flex items-center gap-4 mb-4 sm:mb-0">
                 <img 
