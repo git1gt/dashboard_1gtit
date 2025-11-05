@@ -55,16 +55,17 @@ function App() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-5xl mx-auto px-6 py-8">
-        {/* Title Section */}
-        <div className="mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 mb-2">
-             Что мы сделали за 2025 год
-          </h2>
-        </div>
+      <div className="w-full flex justify-center">
+        <div className="max-w-6xl w-full px-6 py-8">
+          {/* Title Section */}
+          <div className="mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-2">
+               Что мы сделали за 2025 год
+            </h2>
+          </div>
 
-        {/* Metrics Grid */}
-        <MetricsGrid />
+          {/* Metrics Grid */}
+          <MetricsGrid />
 
         {/* Chart Section 
         <div className="mb-12">
@@ -140,30 +141,31 @@ function App() {
         </div>
         */}
 
-        {/* Team Section */}
-        <TeamSection />
+          {/* Team Section */}
+          <TeamSection />
 
-        {/* Footer Section */}
-        <div className="pt-8 border-t border-gray-200/50 w-full">
-          <div className="flex flex-col sm:flex-row items-center justify-between">
-            <div className="flex items-center gap-4 mb-4 sm:mb-0">
-              <img 
-                src="/Лого 1GT IT.png" 
-                alt="1GT Logo" 
-                className="h-8 w-auto opacity-80"
-              />
-              <div>
-                <p className="text-lg font-semibold text-gray-900">© 1GT.IT 2025</p>
+          {/* Footer Section */}
+          <div className="pt-8 border-t border-gray-200/50 w-full">
+            <div className="flex flex-col sm:flex-row items-center justify-between">
+              <div className="flex items-center gap-4 mb-4 sm:mb-0">
+                <img 
+                  src="/Лого 1GT IT.png" 
+                  alt="1GT Logo" 
+                  className="h-8 w-auto opacity-80"
+                />
+                <div>
+                  <p className="text-lg font-semibold text-gray-900">© 1GT.IT 2025</p>
+                </div>
               </div>
-            </div>
-            <div className="text-right">
-              <p className="text-sm text-gray-500">
-                Отчет обновлен: {new Date().toLocaleDateString('ru-RU', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-              </p>
+              <div className="text-right">
+                <p className="text-sm text-gray-500">
+                  Отчет обновлен: {new Date().toLocaleDateString('ru-RU', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </p>
+              </div>
             </div>
           </div>
         </div>
