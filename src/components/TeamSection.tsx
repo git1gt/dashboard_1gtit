@@ -17,7 +17,7 @@ export function TeamSection() {
   }
 
   if (!employeesByMetrics.length) {
-    return <p>Нет данных по командам за выбранный месяц</p>;
+    return <p className="text-gray-500 text-center mb-10">Нет данных по командам за выбранный месяц</p>;
   }
 
   return (
