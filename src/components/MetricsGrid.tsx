@@ -8,7 +8,7 @@ export function MetricsGrid() {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
         {[...Array(4)].map((_, index) => (
           <Card key={index} className="animate-pulse bg-white/90 backdrop-blur-sm border-0">
             <CardHeader className="pb-3">
@@ -27,7 +27,7 @@ export function MetricsGrid() {
 
   if (error) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
         <Card className="col-span-full bg-red-50 border-red-200">
           <CardContent className="p-6 text-center">
             <p className="text-red-600">{error}</p>
