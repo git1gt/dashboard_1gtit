@@ -55,7 +55,7 @@ function App() {
       </div>
 
       {/* Main Content */}
-      <div className=" w-full px-4 py-8">
+      <div className="w-full px-4 py-8">
         {/* Title Section */}
         <div className="mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-2">
