@@ -32,7 +32,7 @@ function App() {
     : [];
 
   return (
-    <div className="min-h-screen bg-blue-50">
+    <div className="bg-blue-50">
       {/* Header */}
       <div className="border-b border-gray-200/50 bg-white/80 backdrop-blur-sm sticky top-0 z-10 w-full">
         <div className="w-full px-4 py-6">
