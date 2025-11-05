@@ -32,7 +32,7 @@ function App() {
     : [];
 
   return (
-    <div className="relative min-h-screen max-w-7xl flex items-center overflow-hidden">
+    <div className="relative min-h-screen max-w-7xl items-center overflow-hidden">
       {/* Header */}
       <div className="border-b border-gray-200/50 bg-white/80 backdrop-blur-sm sticky top-0 z-10 w-full">
         <div className="max-w-6xl mx-auto px-4 py-6">
