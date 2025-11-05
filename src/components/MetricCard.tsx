@@ -43,7 +43,7 @@ export function MetricCard({ icon, title, value, subtitle, delay = 0, color }: M
         <p className="text-sm font-medium">{title}</p>
       </CardHeader>
       <CardContent className="pt-0">
-        <div className="flex items-center gap-2">
+        <div className="space-y-2">
           <div className="text-3xl font-bold text-gray-900 tabular-nums">
             {animatedValue.toLocaleString()}
           </div>
