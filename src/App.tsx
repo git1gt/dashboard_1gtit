@@ -55,7 +55,7 @@ function App() {
       </div>
 
       {/* Main Content */}
-      <div className="w-full flex justify-center">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl w-full px-6 py-8">
           {/* Title Section */}
           <div className="mb-12">
