@@ -32,7 +32,7 @@ export function TeamSection() {
               <div className="flex items-center gap-2 mb-2">
                 <Users className="w-5 h-5 text-gray-600" />
                 <h4 className="font-semibold text-gray-900">
-                  Сотрудники, которые {metric.metric_name}
+                  {metric.metric_name}
                 </h4>
               </div>
             </CardHeader>
