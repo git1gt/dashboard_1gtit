@@ -9,7 +9,7 @@ export function TeamSection() {
   const { employeesByMetrics, loading, error } = useTeam(metrics);
 
   if (loading || metricsLoading) {
-    return <p className="text-gray-500 center">Загрузка...</p>;
+    return <p className="text-gray-500 text-center">Загрузка...</p>;
   }
 
   if (error) {
