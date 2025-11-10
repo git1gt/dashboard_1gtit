@@ -166,6 +166,10 @@ export function useMetrics() {
         
         try {
           const metricIds = filteredMetrics.map(m => m.metric_id).filter(Boolean);
+                      console.log('ORDER BEFORE SET:', transformedMetrics.map(m => ({
+    id: m.metric_id,
+    name: m.metric_name
+    })));
           
           if (metricIds.length > 0) {
             // Получаем связи метрик с командами
