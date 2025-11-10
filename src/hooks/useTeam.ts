@@ -112,5 +112,8 @@ export function useTeam(selectedMetrics: MetricWithDetails[]) {
     fetchEmployeesByMetrics();
   }, [selectedMetrics]);
 
+  console.log('Запрашиваем metric_id:', metricIds);
+console.log('Получено metricTeams:', metricTeams);
+
   return { employeesByMetrics, loading, error };
 }
