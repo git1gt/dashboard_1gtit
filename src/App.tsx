@@ -41,7 +41,9 @@ function App() {
             <div className="flex items-center gap-4">
               <button 
                 onClick={() => window.location.reload()} 
+                variant="ghost"
                 className=" 
+                outline-none ring-0
                 focus:outline-none 
                 active:outline-none 
                 hover:outline-none
