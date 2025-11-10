@@ -152,7 +152,9 @@ function App() {
           <div className="flex flex-col sm:flex-row items-center justify-between">
             <div className="flex items-center gap-4 mb-4 sm:mb-0">
               <button 
-                onClick={() => window.location.reload()}     >
+                onClick={() => window.location.reload()} 
+                className="bg-transparent"
+                >
                 <img 
                   src="/Лого 1GT IT.png" 
                   alt="1GT Logo" 
