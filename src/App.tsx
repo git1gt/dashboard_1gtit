@@ -39,11 +39,16 @@ function App() {
         <div className="w-full px-4 py-6">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-4">
-              <img 
-                src="/Лого 1GT IT.png" 
-                alt="1GT Logo" 
-                className="h-12 w-auto"
-              />
+              <button 
+                onClick={() => window.location.reload()}
+                className="focus:outline-none focus:ring-2 focus:ring-cyan-500 rounded"
+              >
+                <img 
+                  src="/Лого 1GT IT.png" 
+                  alt="1GT Logo" 
+                  className="h-12 w-auto hover:opacity-90 transition-opacity cursor-pointer"
+                />
+              </button>
             </div>
             <div className="ml-auto flex items-center gap-3">
               <Badge variant="secondary" className="bg-cyan-100 text-cyan-700 hover:bg-cyan-200">
@@ -142,17 +147,22 @@ function App() {
         */}
 
         {/* Team Section */}
-        <TeamSection />
+        <TeamSection selectedMetrics={metrics} />
 
         {/* Footer Section */}
         <div className="pt-8 border-t border-gray-200/50 w-full">
           <div className="flex flex-col sm:flex-row items-center justify-between">
             <div className="flex items-center gap-4 mb-4 sm:mb-0">
-              <img 
-                src="/Лого 1GT IT.png" 
-                alt="1GT Logo" 
-                className="h-8 w-auto opacity-80"
-              />
+              <button 
+                onClick={() => window.location.reload()}
+                className="focus:outline-none focus:ring-2 focus:ring-cyan-500 rounded"
+              >
+                <img 
+                  src="/Лого 1GT IT.png" 
+                  alt="1GT Logo" 
+                  className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity cursor-pointer"
+                />
+              </button>
               <div>
                 <p className="font-semibold text-sm text-gray-500">© 1GT.IT {currentYear}</p>
               </div>
