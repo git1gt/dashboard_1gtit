@@ -163,7 +163,11 @@ function App() {
             <div className="flex items-center gap-4 mb-4 sm:mb-0">
               <button 
                 onClick={() => window.location.reload()} 
-                className="bg-transparent"
+                className="
+                border-0 focus:outline-none 
+                active:outline-none hover:outline-none
+                focus-visible:ring-2 focus-visible:ring-cyan-500
+                cursor-pointer bg-transparent"
                 >
                 <img 
                   src="/Лого 1GT IT.png" 
