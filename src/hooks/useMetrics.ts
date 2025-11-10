@@ -197,7 +197,7 @@ export function useMetrics() {
               });
 
               // Перемешиваем и выбираем не более 4 метрик
-              const shuffledFinal = selectedMetrics.sort(() => Math.random() - 0.5);
+              const shuffledFinal = [...selectedMetrics].sort(() => Math.random() - 0.5);
               finalMetrics = shuffledFinal.slice(0, 4);
             }
           }
