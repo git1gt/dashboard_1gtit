@@ -10,6 +10,7 @@ export interface ChartDataPoint {
 export function useMetrics() {
   const [metrics, setMetrics] = useState<MetricWithDetails[]>([]);
   const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
+  const [currentMonthYearId, setCurrentMonthYearId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
