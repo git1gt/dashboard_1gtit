@@ -149,6 +149,10 @@ function App() {
         </div>
         */}
 
+        <h3 className="text-xl font-semibold text-gray-900 mb-6">
+          Кто участвовал в метриках
+        </h3>
+
         {/* Team Section */}
         <TeamSection selectedMetrics={metrics}/>
 
