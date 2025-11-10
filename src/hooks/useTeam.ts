@@ -43,35 +43,30 @@ export function useTeam(selectedMetrics: MetricWithDetails[]) {
           `)
           .in('metric_id', metricIds);
 
-        if (metricTeamsError && metricTeamsError.code !== 'PGRST116') {
-          console.error('Error fetching metric teams:', metricTeamsError);
-          setError('Ошибка загрузки данных команд');
-          return;
-        }
+         const employeesByMetricsData: EmployeeByMetric[] = [];
 
-        if (!metricTeams || metricTeams.length === 0) {
-          setError('Нет команд по выбранным метрикам');
-          setEmployeesByMetrics([]);
-          return;
-        }
-
-        // Группируем по метрикам
-        const metricsMap = new Map<number, { metric_name: string; teamIds: number[] }>();
-
-        metricTeams.forEach(item => {
-          const metricId = item.metric_id;
-          const metricName = item.metrics?.metric;
-          if (metricId && metricName) {
-            if (!metricsMap.has(metricId)) {
-              metricsMap.set(metricId, { metric_name: metricName, teamIds: [] });
-            }
-            metricsMap.get(metricId)!.teamIds.push(item.team_id);
+        // Проходим по каждой метрике из selectedMetrics (в порядке их следования)
+        for (const metric of selectedMetrics) {
+          const metricId = metric.metric_id;
+          const metricName = metric.metrics?.metric || 'Неизвестная метрика';
+        
+          // Находим все команды, связанные с этой метрикой
+          const relatedTeams = metricTeams.filter(item => item.metric_id === metricId);
+        
+          if (relatedTeams.length === 0) {
+            // Если нет команд — всё равно добавим пустой список сотрудников
+            employeesByMetricsData.push({
+              metric_id: metricId,
+              metric_name: metricName,
+              employees: []
+            });
+            continue;
           }
-        });
-
-        const employeesByMetricsData: EmployeeByMetric[] = [];
-
-        for (const [metricId, { metric_name, teamIds }] of metricsMap.entries()) {
+        
+          // Получаем teamIds
+          const teamIds = relatedTeams.map(item => item.team_id);
+        
+          // Получаем сотрудников по teamIds
           const { data: employeesData, error: employeesError } = await supabase
             .from('employee_in_team')
             .select(`
@@ -81,26 +76,23 @@ export function useTeam(selectedMetrics: MetricWithDetails[]) {
               )
             `)
             .in('team_id', teamIds);
-
+        
           if (employeesError && employeesError.code !== 'PGRST116') {
             console.error('Error fetching employees:', employeesError);
             continue;
           }
-
+        
           const allEmployees = employeesData?.map(item => item.employees).filter(Boolean) || [];
-
+        
           const uniqueEmployees = Array.from(
             new Map(allEmployees.map(emp => [emp.employee_id, emp])).values()
           );
-
+        
           employeesByMetricsData.push({
             metric_id: metricId,
-            metric_name,
+            metric_name: metricName,
             employees: uniqueEmployees
           });
-
-          console.log('Запрашиваем metric_id:', metricIds);
-          console.log('Получено metricTeams:', metricTeams);
         }
 
         setEmployeesByMetrics(employeesByMetricsData);
