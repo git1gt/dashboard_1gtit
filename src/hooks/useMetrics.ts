@@ -149,11 +149,6 @@ export function useMetrics() {
               filteredMetrics = monthlyMetrics.filter(metric => 
                 !usedMetricIds.has(metric.metric_id)
               );
-
-              console.log('ORDER BEFORE SET:', transformedMetrics.map(m => ({
-              id: m.metric_id,
-              name: m.metric_name
-              })));
             }
           }
         } catch (filterError) {
@@ -328,6 +323,10 @@ export function useMetrics() {
 
         // Convert to array and sort by month order
         const chartDataArray = allMonths.map(month => chartDataMap[month.month]);
+                      console.log('ORDER BEFORE SET:', transformedMetrics.map(m => ({
+              id: m.metric_id,
+              name: m.metric_name
+              })));
 
         setChartData(chartDataArray);
       } catch (err) {
