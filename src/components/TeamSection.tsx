@@ -26,8 +26,8 @@ export function TeamSection({ selectedMetrics }: TeamSectionProps) {
   return (
        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {/* Маппим employeesByMetrics — в том же порядке, что и метрики */}
-      {employeesByMetrics.map((item) => (
-        <Card key={item.metric_id} className="bg-white/90 border-0 hover:shadow-md">
+      {employeesByMetrics.map((item, index) => (
+        <Card key={index} className="bg-white/90 border-0 hover:shadow-md">
           <CardHeader>
             <div className="flex items-center gap-2 mb-2">
               <Users className="w-5 h-5 text-gray-600" />
