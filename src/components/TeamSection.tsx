@@ -9,7 +9,7 @@ interface TeamSectionProps {
 }
 
 export function TeamSection({ selectedMetrics }: TeamSectionProps) {
-  const { employeesByMetrics, loading, error } = useTeam(selectedMetrics);
+  const { teamsByMetrics, loading, error } = useTeam(selectedMetrics);
 
   if (loading) {
     return <p className="text-gray-500 text-center mb-10">Загрузка...</p>;
