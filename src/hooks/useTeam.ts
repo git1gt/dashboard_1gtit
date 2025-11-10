@@ -12,7 +12,7 @@ interface EmployeeByMetric {
 }
 
 export function useTeam(selectedMetrics: MetricWithDetails[]) {
-  const [employeesByMetrics, setEmployeesByMetrics] = useState<EmployeeByMetric[]>([]);
+  const [employeesByMetrics, setEmployeesByMetrics] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
