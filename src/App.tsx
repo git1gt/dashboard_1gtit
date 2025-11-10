@@ -40,8 +40,6 @@ function App() {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-4">
               <button 
-
-                variant="ghost"
                 className=" 
                 focus:outline-none 
                 active:outline-none 
