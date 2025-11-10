@@ -5,7 +5,7 @@ import { MetricCard } from './MetricCard';
 
 export function MetricsGrid() {
   const { metrics, loading, error } = useMetrics();
-  console.log('FINAL METRICS ORDER:', metrics.map(m => ({
+  console.log('METRICS GRID:', metrics.map(m => ({
   id: m.metric_id,
   name: m.metric_name
 })));
