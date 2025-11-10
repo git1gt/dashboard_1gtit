@@ -6,6 +6,11 @@ import { MetricCard } from './MetricCard';
 export function MetricsGrid() {
   const { metrics, loading, error } = useMetrics();
 
+  console.log('METRIC GRID:', metric.map(m => ({
+  id: m.metric_id,
+  name: m.metric_name
+})));
+
   if (loading) {
     return (
       <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
