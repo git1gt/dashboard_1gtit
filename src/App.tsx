@@ -41,7 +41,7 @@ function App() {
             <div className="flex items-center gap-4">
               <button 
                 onClick={() => window.location.reload()} 
-                className="focus:outline-none ransition-transform duration-200 hover:scale-105 bg-transparent">
+                className="focus:outline-none transition-transform duration-200 hover:scale-105 bg-transparent">
                 <img 
                   src="/Лого 1GT IT.png" 
                   alt="1GT Logo" 
