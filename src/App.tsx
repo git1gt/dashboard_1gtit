@@ -40,8 +40,7 @@ function App() {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-4">
               <button 
-                onClick={() => window.location.reload()}
-            я>
+                onClick={() => window.location.reload()} >
                 <img 
                   src="/Лого 1GT IT.png" 
                   alt="1GT Logo" 
