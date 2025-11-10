@@ -150,7 +150,7 @@ function App() {
         */}
 
         {/* Team Section */}
-        <TeamSection selectedMetrics={metrics} monthyearId={currentMonthYearId} />
+        <TeamSection selectedMetrics={metrics}/>
 
         {/* Footer Section */}
         <div className="pt-8 border-t border-gray-200/50 w-full">
