@@ -42,11 +42,10 @@ function App() {
               <button 
                 onClick={() => window.location.reload()} 
                 className=" 
-                focus:outline-none
+                focus:outline-none hover:opacity-90
                 focus-visible:ring-2 focus-visible:ring-cyan-500
                 transition-transform duration-200 hover:scale-105
-                cursor-pointer
-                bg-transparent">
+                cursor-pointer bg-transparent">
                 <img 
                   src="/Лого 1GT IT.png" 
                   alt="1GT Logo" 
