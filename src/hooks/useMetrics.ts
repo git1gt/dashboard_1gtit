@@ -332,11 +332,6 @@ export function useMetrics() {
     fetchMetrics();
   }, []);
 
-              console.log('ORDER BEFORE SET:', transformedMetrics.map(m => ({
-    id: m.metric_id,
-    name: m.metric_name
-    })));
-
   return { metrics, chartData, loading, error };
   
 }
