@@ -23,7 +23,7 @@ function App() {
   const { metrics, chartData, loading: chartLoading } = useMetrics();
   const currentYear = new Date().getFullYear();
 
-  // Get unique measurements for chart lines
+  {/* Get unique measurements for chart lines
   const measurements = chartData.length > 0 
     ? Array.from(new Set(
         chartData.flatMap(item => 
@@ -31,7 +31,8 @@ function App() {
         )
       ))
     : [];
-
+  */}
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-cyan-50/30 px-4 sm:px-6 lg:px-8">
       {/* Header */}
