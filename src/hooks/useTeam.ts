@@ -56,9 +56,9 @@ export function useTeam(selectedMetrics: MetricWithDetails[]) {
           if (relatedTeams.length === 0) {
             // Если нет команд — всё равно добавим пустой список сотрудников
             employeesByMetricsData.push({
-              metric_id: metricId,
-              metric_name: metricName,
-              employees: []
+              metric_id: metric.metricId,
+              metric_name: metric.metric_name || metric.metrics?.metric || 'Неизвестная метрика',
+              employees: uniqueEmployees
             });
             continue;
           }
