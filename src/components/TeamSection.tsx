@@ -23,6 +23,11 @@ export function TeamSection({ selectedMetrics }: TeamSectionProps) {
     return <p className="text-gray-500 text-center mb-10">Нет данных по командам за выбранный месяц</p>;
   }
 
+  console.log('TEAM SECTION ORDER:', employeesByMetrics.map(e => ({
+  id: e.metric_id,
+  name: e.metric_name
+})));
+
   // Создаём Map для быстрого поиска по metric_id
   const employeesMap = new Map(
     employeesByMetrics.map(item => [item.metric_id, item])
