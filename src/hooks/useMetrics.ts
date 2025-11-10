@@ -117,8 +117,107 @@ export function useMetrics() {
           return;
         }
 
+        // Фильтрация метрик: исключаем те, что использовались в двух предыдущих месяцах
+        let filteredMetrics = monthlyMetrics;
+        
+        try {
+          // Получаем ID двух предыдущих месяцев
+          const currentMonthIdForFilter = finalMonthData.month_id;
+          const prevMonth1Id = currentMonthIdForFilter === 1 ? 12 : currentMonthIdForFilter - 1;
+          const prevMonth2Id = prevMonth1Id === 1 ? 12 : prevMonth1Id - 1;
+          
+          // Получаем monthyear_id для предыдущих месяцев
+          const { data: prevMonthsYearData, error: prevMonthsError } = await supabase
+            .from('month_in_year')
+            .select('monthyear_id')
+            .eq('year_id', yearData.year_id)
+            .in('month_id', [prevMonth1Id, prevMonth2Id]);
+
+          if (!prevMonthsError && prevMonthsYearData && prevMonthsYearData.length > 0) {
+            const prevMonthYearIds = prevMonthsYearData.map(m => m.monthyear_id);
+            
+            // Получаем metric_id метрик из предыдущих месяцев
+            const { data: prevMetrics, error: prevMetricsError } = await supabase
+              .from('monthly_metrics')
+              .select('metric_id')
+              .in('monthyear_id', prevMonthYearIds);
+
+            if (!prevMetricsError && prevMetrics && prevMetrics.length > 0) {
+              const usedMetricIds = new Set(prevMetrics.map(m => m.metric_id).filter(Boolean));
+              
+              // Исключаем метрики, которые использовались в предыдущих месяцах
+              filteredMetrics = monthlyMetrics.filter(metric => 
+                !usedMetricIds.has(metric.metric_id)
+              );
+            }
+          }
+        } catch (filterError) {
+          console.warn('Ошибка при фильтрации метрик:', filterError);
+          // Продолжаем с исходными метриками при ошибке фильтрации
+        }
+
+        // Если после фильтрации метрик не осталось, используем исходные
+        if (filteredMetrics.length === 0) {
+          filteredMetrics = monthlyMetrics;
+        }
+
+        // Получаем информацию о командах для группировки
+        let finalMetrics = filteredMetrics;
+        
+        try {
+          const metricIds = filteredMetrics.map(m => m.metric_id).filter(Boolean);
+          
+          if (metricIds.length > 0) {
+            // Получаем связи метрик с командами
+            const { data: metricTeams, error: metricTeamsError } = await supabase
+              .from('metric_by_team')
+              .select('metric_id, team_id')
+              .in('metric_id', metricIds);
+
+            if (!metricTeamsError && metricTeams && metricTeams.length > 0) {
+              // Группируем метрики по командам
+              const metricsByTeam = new Map<number, typeof filteredMetrics>();
+              
+              filteredMetrics.forEach(metric => {
+                const teamRelation = metricTeams.find(mt => mt.metric_id === metric.metric_id);
+                if (teamRelation) {
+                  const teamId = teamRelation.team_id;
+                  if (!metricsByTeam.has(teamId)) {
+                    metricsByTeam.set(teamId, []);
+                  }
+                  metricsByTeam.get(teamId)!.push(metric);
+                }
+              });
+
+              // Выбираем не более 2 метрик из каждой команды
+              const selectedMetrics: typeof filteredMetrics = [];
+              metricsByTeam.forEach(teamMetrics => {
+                const shuffled = [...teamMetrics].sort(() => Math.random() - 0.5);
+                selectedMetrics.push(...shuffled.slice(0, 2));
+              });
+
+              // Перемешиваем и выбираем не более 4 метрик
+              const shuffledFinal = selectedMetrics.sort(() => Math.random() - 0.5);
+              finalMetrics = shuffledFinal.slice(0, 4);
+            }
+          }
+        } catch (groupError) {
+          console.warn('Ошибка при группировке метрик:', groupError);
+          // Продолжаем с отфильтрованными метриками при ошибке группировки
+          finalMetrics = filteredMetrics.slice(0, 4);
+        }
+
+        // Если итоговых метрик меньше 4, дополняем из исходных
+        if (finalMetrics.length < 4) {
+          const usedIds = new Set(finalMetrics.map(m => m.metric_id));
+          const additionalMetrics = monthlyMetrics
+            .filter(m => !usedIds.has(m.metric_id))
+            .slice(0, 4 - finalMetrics.length);
+          finalMetrics = [...finalMetrics, ...additionalMetrics];
+        }
+
         // Transform data
-        const transformedMetrics: MetricWithDetails[] = monthlyMetrics.map(metric => ({
+        const transformedMetrics: MetricWithDetails[] = finalMetrics.map(metric => ({
           ...metric,
           metric_name: metric.metrics?.metric || 'Неизвестная метрика'
         }));
