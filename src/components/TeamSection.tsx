@@ -22,6 +22,7 @@ export function TeamSection({ selectedMetrics }: TeamSectionProps) {
   if (!employeesByMetrics || employeesByMetrics.length === 0) {
     return <p className="text-gray-500 text-center mb-10">Нет данных по командам за выбранный месяц</p>;
   }
+  console.log('employeesByMetrics:', employeesByMetrics);
 
   return (
     <div className="w-full mb-12">
