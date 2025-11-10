@@ -23,6 +23,11 @@ function App() {
   const { metrics, chartData, loading: chartLoading } = useMetrics();
   const currentYear = new Date().getFullYear();
 
+  console.log('FINAL METRICS ORDER:', metrics.map(m => ({
+  id: m.metric_id,
+  name: m.metric_name
+})));
+
   // Get unique measurements for chart lines
   const measurements = chartData.length > 0 
     ? Array.from(new Set(
