@@ -41,7 +41,6 @@ function App() {
             <div className="flex items-center gap-4">
               <button 
                 onClick={() => window.location.reload()}
-                className="focus:outline-none focus:ring-2 focus:ring-cyan-500 rounded"
               >
                 <img 
                   src="/Лого 1GT IT.png" 
