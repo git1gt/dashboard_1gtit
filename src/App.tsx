@@ -21,7 +21,7 @@ import {
 
 function App() {
   const { metrics, chartData, loading: chartLoading } = useMetrics();
-  const currentYear = new Date().getFullYear();
+  const currentYear = 2024;
 
   // Get unique measurements for chart lines
   const measurements = chartData.length > 0 
