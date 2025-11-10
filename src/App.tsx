@@ -20,7 +20,7 @@ import {
 // const colors = ['#06b6d4', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444'];
 
 function App() {
-  const { chartData, loading: chartLoading } = useMetrics();
+  const { metrics, chartData, loading: chartLoading } = useMetrics();
   const currentYear = new Date().getFullYear();
 
   // Get unique measurements for chart lines
