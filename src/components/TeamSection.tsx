@@ -19,7 +19,7 @@ export function TeamSection({ selectedMetrics }: TeamSectionProps) {
     return <p className="text-red-600">{error}</p>;
   }
 
-  if (!teamsByMetrics.length) {
+  if (!Array.isArray(employeesByMetrics) || employeesByMetrics.length === 0) {
     return <p className="text-gray-500 text-center mb-10">Нет данных по командам за выбранный месяц</p>;
   }
 
