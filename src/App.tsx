@@ -156,7 +156,7 @@ function App() {
                 <img 
                   src="/Лого 1GT IT.png" 
                   alt="1GT Logo" 
-                  className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity cursor-pointer"
+                  className="h-8 w-auto opacity-80"
                 />
               </button>
               <div>
