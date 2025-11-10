@@ -37,7 +37,7 @@ export function MetricsGrid() {
     );
   }
 
-    console.log('METRIC GRID:', metric.map(m => ({
+    console.log('METRIC GRID:', metrics.map(m => ({
   id: m.metric_id,
   name: m.metric_name
 })));
