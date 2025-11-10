@@ -44,7 +44,7 @@ function App() {
                 <img 
                   src="/Лого 1GT IT.png" 
                   alt="1GT Logo" 
-                  className="h-12 w-auto hover:opacity-90 transition-opacity"
+                  className="h-12 w-auto"
                 />
               </button>
             </div>
@@ -152,9 +152,7 @@ function App() {
           <div className="flex flex-col sm:flex-row items-center justify-between">
             <div className="flex items-center gap-4 mb-4 sm:mb-0">
               <button 
-                onClick={() => window.location.reload()}
-                className="focus:outline-none focus:ring-2 focus:ring-cyan-500 rounded"
-              >
+                onClick={() => window.location.reload()}     >
                 <img 
                   src="/Лого 1GT IT.png" 
                   alt="1GT Logo" 
