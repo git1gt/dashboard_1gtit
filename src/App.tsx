@@ -40,7 +40,7 @@ function App() {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-4">
               <button 
-                onClick={() => window.location.reload()} 
+
                 variant="ghost"
                 className=" 
                 focus:outline-none 
@@ -49,6 +49,7 @@ function App() {
                 focus-visible:ring-0
                 transition-transform duration-200 hover:scale-105
                 cursor-pointer bg-transparent"
+                                onClick={() => window.location.reload()} 
                 >
                 <img 
                   src="/Лого 1GT IT.png" 
