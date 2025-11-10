@@ -23,11 +23,6 @@ export function TeamSection({ selectedMetrics }: TeamSectionProps) {
     return <p className="text-gray-500 text-center mb-10">Нет данных по командам за выбранный месяц</p>;
   }
 
-  console.log('TEAM SECTION ORDER:', employeesByMetrics.map(e => ({
-  id: e.metric_id,
-  name: e.metric_name
-})));
-
   return (
        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {/* Маппим employeesByMetrics — в том же порядке, что и метрики */}
