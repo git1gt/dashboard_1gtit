@@ -42,7 +42,7 @@ function App() {
               <button 
                 onClick={() => window.location.reload()} 
                 className=" 
-                rounded p-1 bg-white
+                rounded p-1
                 focus:outline-none
                 focus-visible:ring-2 focus-visible:ring-cyan-500
                 transition-transform duration-200 hover:scale-105
