@@ -13,7 +13,7 @@ export function MetricsGrid() {
   if (loading) {
     return (
       <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-        {[...Array(4)].map((_, index) => (
+       {metrics.map((metric, index => (
           <Card key={index} className="animate-pulse bg-white/90 backdrop-blur-sm border-0">
             <CardHeader className="pb-3">
               <div className="w-12 h-12 rounded-xl bg-gray-200 mb-3" />
