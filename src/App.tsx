@@ -48,10 +48,6 @@ function App() {
                 focus-visible:ring-2яя focus-visible:ring-cyan-500
                 transition-transform duration-200 hover:scale-105
                 cursor-pointer bg-transparent"
-                style={{
-                outline: 'none',
-                boxShadow: 'none',
-                }}
                 >
                 <img 
                   src="/Лого 1GT IT.png" 
