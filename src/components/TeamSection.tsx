@@ -24,7 +24,6 @@ export function TeamSection({ selectedMetrics }: TeamSectionProps) {
   }
 
   return (
-    <div className="w-full mb-12">
       <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {teamsByMetrics.map((team, index) => (
           <Card key={index} className="bg-white/90 border-0 hover:shadow-md">
@@ -54,6 +53,5 @@ export function TeamSection({ selectedMetrics }: TeamSectionProps) {
           </Card>
         ))}
       </div>
-    </div>
   );
 }
