@@ -11,7 +11,7 @@ interface EmployeeByMetric {
   }>;
 }
 
-export function useTeam(selectedMetrics: MetricWithDetails[]) {
+export function useTeam(selectedMetrics: MetricWithDetails[], monthyearId: number) {
   const [employeesByMetrics, setEmployeesByMetrics] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
