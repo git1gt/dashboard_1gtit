@@ -37,7 +37,7 @@ export function useMetrics() {
         }
 
         if (!yearData) {
-          setError('Нет данных за этот год');
+          setError('Ошибка получения данных года');
           return;
         }
 
@@ -69,7 +69,7 @@ export function useMetrics() {
           }
 
           if (!prevMonthData) {
-            setError('Нет данных за этот месяц');
+            setError('Ошибка получения данных месяца');
             return;
           }
 
@@ -113,7 +113,7 @@ export function useMetrics() {
         }
 
         if (!monthlyMetrics || monthlyMetrics.length === 0) {
-          setError('Ошибка получения метрик');
+          setError('Нет данных за этот месяц');
           return;
         }
 
