@@ -9,7 +9,7 @@ interface TeamSectionProps {
 }
 
 export function TeamSection({ selectedMetrics }: TeamSectionProps) {
-  const { teamsByMetrics, loading, error } = useTeam(selectedMetrics);
+  const { employeesByMetrics, loading, error } = useTeam(selectedMetrics);
 
   if (loading) {
     return <p className="text-gray-500 text-center mb-10">Загрузка...</p>;
@@ -19,13 +19,13 @@ export function TeamSection({ selectedMetrics }: TeamSectionProps) {
     return <p className="text-red-600">{error}</p>;
   }
 
-  if (!teamsByMetrics || teamsByMetrics.length === 0) {
+  if (!employeesByMetrics || employeesByMetrics.length === 0) {
     return <p className="text-gray-500 text-center mb-10">Нет данных по командам за выбранный месяц</p>;
   }
 
   return (
       <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {teamsByMetrics.map((team, index) => (
+        {employeesByMetrics.map((team, index) => (
           <Card key={index} className="bg-white/90 border-0 hover:shadow-md">
             <CardHeader>
               <div className="flex items-center gap-2 mb-2">
