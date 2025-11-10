@@ -222,10 +222,10 @@ export function useMetrics() {
           metric_name: metric.metrics?.metric || 'Неизвестная метрика'
         }));
 
-                              console.log('ORDER BEFORE SET:', transformedMetrics.map(m => ({
-    id: m.metric_id,
-    name: m.metric_name
-    })));
+        console.log('ORDER BEFORE SET:', transformedMetrics.map(m => ({
+        id: m.metric_id,
+        name: m.metric_name
+        })));
 
         setMetrics(transformedMetrics);
 
