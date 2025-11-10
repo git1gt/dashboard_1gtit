@@ -98,6 +98,9 @@ export function useTeam(selectedMetrics: MetricWithDetails[]) {
             metric_name,
             employees: uniqueEmployees
           });
+
+          console.log('Запрашиваем metric_id:', metricIds);
+          console.log('Получено metricTeams:', metricTeams);
         }
 
         setEmployeesByMetrics(employeesByMetricsData);
@@ -111,7 +114,6 @@ export function useTeam(selectedMetrics: MetricWithDetails[]) {
 
     fetchEmployeesByMetrics();
   }, [selectedMetrics]);
-
 
   return { employeesByMetrics, loading, error };
 }
