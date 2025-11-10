@@ -43,6 +43,9 @@ function App() {
                 onClick={() => window.location.reload()} 
                 className=" 
                 border-0
+                focus:outline-none 
+                active:outline-none 
+                hover:outline-none
                 focus-visible:ring-2 focus-visible:ring-cyan-500
                 transition-transform duration-200 hover:scale-105
                 cursor-pointer bg-transparent"
