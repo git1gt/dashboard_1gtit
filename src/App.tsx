@@ -21,7 +21,7 @@ import {
 
 function App() {
   const { metrics, chartData, loading: chartLoading } = useMetrics();
-  const currentYear = ;
+  const currentYear = new Date().getFullYear();
 
   // Get unique measurements for chart lines
   const measurements = chartData.length > 0 
@@ -42,12 +42,10 @@ function App() {
               <button 
                 onClick={() => window.location.reload()} 
                 className=" 
-                border-0 focus:outline-none 
-                active:outline-none hover:outline-none
+                focus:outline-none
                 focus-visible:ring-2 focus-visible:ring-cyan-500
                 transition-transform duration-200 hover:scale-105
-                cursor-pointer bg-transparent"
-                >
+                cursor-pointer bg-transparent">
                 <img 
                   src="/Лого 1GT IT.png" 
                   alt="1GT Logo" 
@@ -151,10 +149,6 @@ function App() {
         </div>
         */}
 
-        <h3 className="text-xl font-semibold text-gray-900 mb-6">
-          Кто участвовал в метриках
-        </h3>
-
         {/* Team Section */}
         <TeamSection selectedMetrics={metrics}/>
 
@@ -164,11 +158,7 @@ function App() {
             <div className="flex items-center gap-4 mb-4 sm:mb-0">
               <button 
                 onClick={() => window.location.reload()} 
-                className="
-                border-0 focus:outline-none 
-                active:outline-none hover:outline-none
-                focus-visible:ring-2 focus-visible:ring-cyan-500
-                cursor-pointer bg-transparent"
+                className="bg-transparent"
                 >
                 <img 
                   src="/Лого 1GT IT.png" 
