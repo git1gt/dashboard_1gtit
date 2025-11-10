@@ -43,7 +43,6 @@ function App() {
                 onClick={() => window.location.reload()} 
                 variant="ghost"
                 className=" 
-                outline-none ring-0
                 focus:outline-none 
                 active:outline-none 
                 hover:outline-none
