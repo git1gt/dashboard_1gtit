@@ -23,8 +23,7 @@ export function useMetrics() {
         const currentDate = new Date();
         const currentMonthId = 10;
         //const currentMonthId = currentDate.getMonth() + 1;
-        //const currentYear = new Date().getFullYear();
-        const currentYear = 2024;
+        const currentYear = new Date().getFullYear();
 
         // First, get the year_id for currentYear
         const { data: yearData, error: yearError } = await supabase
