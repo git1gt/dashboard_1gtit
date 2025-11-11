@@ -46,7 +46,7 @@ function App() {
       <div className="w-full px-4 py-8">
         {/* Title Section */}
         <div className="mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 mb-2">
+          <h2 className="text-4xl font-bold text-[#081C2C] mb-2">
              Что мы сделали за {currentYear} год
           </h2>
         </div>
@@ -55,7 +55,7 @@ function App() {
         <MetricsGrid />
 
 
-        <h3 className="text-xl font-semibold text-gray-900 mb-6">
+        <h3 className="text-xl font-semibold text-[#081C2C] mb-6">
           Кто участвовал в метриках
         </h3>
 
