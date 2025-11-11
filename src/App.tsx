@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { TrendingUp } from 'lucide-react';
 import { MetricsGrid } from '@/components/MetricsGrid';
@@ -7,7 +5,7 @@ import { TeamSection } from '@/components/TeamSection';
 import { useMetrics } from '@/hooks/useMetrics';
 
 function App() {
-  const { metrics, chartData, loading: chartLoading } = useMetrics();
+  const { metrics } = useMetrics();
   const currentYear = new Date().getFullYear();
 
   return (

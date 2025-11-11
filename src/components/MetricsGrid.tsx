@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { useMetrics } from '@/hooks/useMetrics';
 import { MetricCard } from './MetricCard';
