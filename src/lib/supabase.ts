@@ -14,16 +14,16 @@ export interface Metric {
   metric_id: number;
   metric: string;
   measurement: string | null;
-  created_at: string | null;
+  created_at?: string | null;
 }
 
 export interface MonthlyMetric {
   monthmetric_id: number;
   metric_id: number | null;
-  monthyear_id: number | null;
+  monthyear_id?: number | null;
   value: number | null;
-  created_at: string | null;
-  metrics?: Metric;
+  created_at?: string | null;
+  metrics: Metric;
 }
 
 export interface Employee {

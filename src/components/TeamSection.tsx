@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Users } from 'lucide-react';
 import { useTeam } from '@/hooks/useTeam';
@@ -31,7 +30,7 @@ export function TeamSection({ selectedMetrics }: TeamSectionProps) {
 
   return (
     <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      {selectedMetrics.map((metric, index) => {
+      {selectedMetrics.map((metric) => {
         const teamData = employeesMap.get(metric.metric_id) || {
           metric_id: metric.metric_id,
           metric_name: metric.metric_name || 'Неизвестная метрика',

@@ -9,7 +9,7 @@ export interface ChartDataPoint {
 
 export function useMetrics() {
   const [metrics, setMetrics] = useState<MetricWithDetails[]>([]);
-  const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
+  // const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -21,7 +21,7 @@ export function useMetrics() {
 
         // Get current month and year
         const currentDate = new Date();
-        const currentMonthId = 10;
+        const currentMonthId = 10 as number;
         //const currentMonthId = currentDate.getMonth() + 1;
         const currentYear = new Date().getFullYear();
 
@@ -76,6 +76,7 @@ export function useMetrics() {
           finalMonthData = prevMonthData;
         }
 
+        if (!finalMonthData) return; 
         // Get monthyear_id
         const { data: monthYearData, error: monthYearError } = await supabase
           .from('month_in_year')
@@ -229,7 +230,7 @@ export function useMetrics() {
 
         setMetrics(transformedMetrics);
 
-        await fetchChartData(yearData.year_id, transformedMetrics);
+        //await fetchChartData(yearData.year_id, transformedMetrics);
       } catch (err) {
         // Fetch chart data for all months in 2025
         console.error('Unexpected error:', err);
@@ -239,7 +240,10 @@ export function useMetrics() {
       }
     }
 
-    async function fetchChartData(yearId: number, selectedMetrics: MetricWithDetails[]) {
+
+  {/* Для графика
+
+      async function fetchChartData(yearId: number, selectedMetrics: MetricWithDetails[]) {
       try {
         // Get all months
         const { data: allMonths, error: monthsError } = await supabase
@@ -334,9 +338,13 @@ export function useMetrics() {
         console.error('Error fetching chart data:', err);
       }
     }
-    fetchMetrics();
-  }, []);
+    
 
-  return { metrics, chartData, loading, error };
-  
+  */}
+
+  fetchMetrics();
+    }, []);
+
+  //return { metrics, chartData, loading, error };
+  return { metrics, loading, error };
 }
