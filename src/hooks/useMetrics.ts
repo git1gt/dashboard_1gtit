@@ -223,8 +223,8 @@ export function useMetrics() {
         }));
 
         console.log('ORDER BEFORE SET:', transformedMetrics.map(m => ({
-        id: m.metric_id,
-        name: m.metric_name
+          id: m.metric_id,
+          name: m.metric_name
         })));
 
         setMetrics(transformedMetrics);
