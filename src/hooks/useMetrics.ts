@@ -20,7 +20,6 @@ export function useMetrics() {
         setError(null);
 
         // Get current month and year
-        const currentDate = new Date();
         const currentMonthId = 10 as number;
         //const currentMonthId = currentDate.getMonth() + 1;
         const currentYear = new Date().getFullYear();
@@ -102,6 +101,7 @@ export function useMetrics() {
             metric_id,
             value,
             metrics (
+              metric_id,
               metric,
               measurement
             )
@@ -218,10 +218,20 @@ export function useMetrics() {
         }
 
         // Transform data
-        const transformedMetrics: MetricWithDetails[] = finalMetrics.map(metric => ({
-          ...metric,
-          metric_name: metric.metrics?.metric || 'Неизвестная метрика'
-        }));
+        const transformedMetrics: MetricWithDetails[] = finalMetrics.map(metric => {
+          const metricsData = Array.isArray(metric.metrics) ? metric.metrics[0] : metric.metrics;
+          return {
+            monthmetric_id: metric.monthmetric_id,
+            metric_id: metric.metric_id,
+            value: metric.value,
+            metrics: {
+              metric_id: metricsData?.metric_id || 0,
+              metric: metricsData?.metric || '',
+              measurement: metricsData?.measurement || null
+            },
+            metric_name: metricsData?.metric || 'Неизвестная метрика'
+          };
+        });
 
         console.log('ORDER BEFORE SET:', transformedMetrics.map(m => ({
           id: m.metric_id,

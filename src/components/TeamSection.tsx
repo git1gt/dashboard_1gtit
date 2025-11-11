@@ -31,8 +31,9 @@ export function TeamSection({ selectedMetrics }: TeamSectionProps) {
   return (
     <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {selectedMetrics.map((metric) => {
-        const teamData = employeesMap.get(metric.metric_id) || {
-          metric_id: metric.metric_id,
+        const metricId = metric.metric_id ?? 0;
+        const teamData = employeesMap.get(metricId) || {
+          metric_id: metricId,
           metric_name: metric.metric_name || 'Неизвестная метрика',
           employees: []
         };
@@ -49,7 +50,7 @@ export function TeamSection({ selectedMetrics }: TeamSectionProps) {
             </CardHeader>
             <CardContent>
               {teamData.employees.length ? (
-                teamData.employees.map(emp => (
+                teamData.employees.map((emp: { employee_id: number; full_name: string }) => (
                   <div
                     key={emp.employee_id}
                     className="text-sm text-gray-700 py-1 px-2 bg-gray-50 mb-2 rounded-md"
