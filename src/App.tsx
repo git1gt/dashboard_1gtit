@@ -44,7 +44,7 @@ function App() {
 
 
         <h3 className="text-xl font-semibold text-[#081C2C] mb-6">
-          Кто участвовал в метриках
+        Кто внёс вклад в показатели
         </h3>
 
         {/* Team Section */}

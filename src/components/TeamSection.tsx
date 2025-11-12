@@ -43,9 +43,9 @@ export function TeamSection({ selectedMetrics }: TeamSectionProps) {
             <CardHeader>
               <div className="flex items-center gap-2 mb-2">
                 <Users className="w-5 h-5 text-gray-600" />
-                <h2 className="font-semibold text-[#081C2C]">
+                <p className="text-sm font-semibold text-[#081C2C]">
                   {teamData.metric_name}
-                </h2>
+                </p>
               </div>
             </CardHeader>
             <CardContent>
