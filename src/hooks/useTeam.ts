@@ -43,21 +43,21 @@ export function useTeam(selectedMetrics: MetricWithDetails[]) {
           `)
           .in('metric_id', metricIds);
 
-        if (metricTeamsError && metricTeamsError.code !== 'PGRST116') {
-          console.error('Error fetching metric teams:', metricTeamsError);
-        }
+          if (metricTeamsError && metricTeamsError.code !== 'PGRST116') {
+            console.error('Error fetching metric by teams:', metricTeamsError);
+          }  
 
          const employeesByMetricsData: EmployeeByMetric[] = [];
 
         // Проходим по каждой метрике из selectedMetrics (в порядке их следования)
         for (const metric of selectedMetrics) {
-          const metricId = metric.metric_id ?? 0;
+          const metricId = metric.metric_id as number;
           const metricName = metric.metrics?.metric || 'Неизвестная метрика';
-
-          // Находим все команды, связанные с этой метрикой
-          const relatedTeams = metricTeams?.filter(item => item.metric_id === metricId) || [];
         
-          if (relatedTeams.length === 0) {
+          // Находим все команды, связанные с этой метрикой
+          const relatedTeams = metricTeams?.filter(item => item.metric_id === metricId);
+        
+          if (relatedTeams?.length === 0) {
             // Если нет команд — всё равно добавим пустой список сотрудников
             employeesByMetricsData.push({
               metric_id: metricId,
@@ -68,7 +68,7 @@ export function useTeam(selectedMetrics: MetricWithDetails[]) {
           }
         
           // Получаем teamIds
-          const teamIds = relatedTeams.map(item => item.team_id);
+          const teamIds = relatedTeams?.map(item => item.team_id);
         
           // Получаем сотрудников по teamIds
           const { data: employeesData, error: employeesError } = await supabase
@@ -80,20 +80,14 @@ export function useTeam(selectedMetrics: MetricWithDetails[]) {
               )
             `)
             .in('team_id', teamIds);
-
+        
           if (employeesError && employeesError.code !== 'PGRST116') {
             console.error('Error fetching employees:', employeesError);
             continue;
           }
-
-          const allEmployees = employeesData?.map(item => {
-            const emp = item.employees;
-            if (Array.isArray(emp)) {
-              return emp[0];
-            }
-            return emp;
-          }).filter(Boolean) as Array<{ employee_id: number; full_name: string }> || [];
-
+        
+          const allEmployees = employeesData?.map(item => item.employees).filter(Boolean) || [];
+        
           const uniqueEmployees = Array.from(
             new Map(allEmployees.map(emp => [emp.employee_id, emp])).values()
           );
