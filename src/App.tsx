@@ -1,5 +1,3 @@
-import { Badge } from '@/components/ui/badge';
-import { TrendingUp } from 'lucide-react';
 import { MetricsGrid } from '@/components/MetricsGrid';
 import { TeamSection } from '@/components/TeamSection';
 import { useMetrics } from '@/hooks/useMetrics';
@@ -30,12 +28,6 @@ function App() {
                 />
               </button>
             </div>
-            <div className="ml-auto flex items-center gap-3">
-              <Badge variant="secondary" className="bg-cyan-100 text-cyan-700 hover:bg-cyan-200">
-                <TrendingUp className="w-3 h-3 mr-1" />
-                {currentYear} Отчет 
-              </Badge>
-            </div>
           </div>
         </div>
       </div>
@@ -43,11 +35,9 @@ function App() {
       {/* Main Content */}
       <div className="w-full px-4 py-8">
         {/* Title Section */}
-        <div className="mb-12">
-          <h2 className="text-4xl font-bold text-[#081C2C] mb-2">
+          <h2 className="text-4xl font-bold text-[#081C2C] mb-8">
              Что мы сделали за {currentYear} год
           </h2>
-        </div>
 
         {/* Metrics Grid */}
         <MetricsGrid />

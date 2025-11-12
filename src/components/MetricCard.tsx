@@ -44,7 +44,7 @@ export function MetricCard({ title, value, subtitle, delay = 0 }: MetricCardProp
           <div className="text-5xl font-bold tabular-nums text-[#46C9F3]">
             {animatedValue.toLocaleString()}
           </div>
-          <p className="text-m text-[#081C2C]">{subtitle}</p>
+          <p className="text-base text-[#081C2C]">{subtitle}</p>
         </div>
       </CardContent>
     </Card>

@@ -29,7 +29,7 @@ export function TeamSection({ selectedMetrics }: TeamSectionProps) {
   );
 
   return (
-    <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
       {selectedMetrics.map((metric) => {
         const metricId = metric.metric_id ?? 0;
         const teamData = employeesMap.get(metricId) || {
@@ -39,7 +39,7 @@ export function TeamSection({ selectedMetrics }: TeamSectionProps) {
         };
 
         return (
-          <Card key={metric.monthmetric_id} className="bg-white/90 border-0 hover:shadow-md">
+          <Card key={metric.monthmetric_id} className="bg-white/50 border-0 hover:shadow-md">
             <CardHeader>
               <div className="flex items-center gap-2 mb-2">
                 <Users className="w-5 h-5 text-gray-600" />
@@ -53,7 +53,7 @@ export function TeamSection({ selectedMetrics }: TeamSectionProps) {
                 teamData.employees.map((emp: { employee_id: number; full_name: string }) => (
                   <div
                     key={emp.employee_id}
-                    className="text-sm text-gray-700 py-1 px-2 bg-gray-50 mb-2 rounded-md"
+                    className="text-sm text-[#081C2C] py-1 px-2 bg-[#F4F6F7] mb-2 rounded-md"
                   >
                     {emp.full_name}
                   </div>
