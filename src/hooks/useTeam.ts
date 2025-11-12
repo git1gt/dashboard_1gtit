@@ -68,8 +68,8 @@ export function useTeam(selectedMetrics: MetricWithDetails[]) {
           }
         
           // Получаем teamIds
-          const teamIds = relatedTeams?.map(item => item.team_id);
-        
+          const teamIds = relatedTeams?.map(item => item.team_id) ?? [];
+
           // Получаем сотрудников по teamIds
           const { data: employeesData, error: employeesError } = await supabase
             .from('employee_in_team')
@@ -86,8 +86,19 @@ export function useTeam(selectedMetrics: MetricWithDetails[]) {
             continue;
           }
         
-          const allEmployees = employeesData?.map(item => item.employees).filter(Boolean) || [];
-        
+          const allEmployees: Array<{ employee_id: number; full_name: string }> = [];
+
+          employeesData?.forEach(item => {
+            const emp = item.employees;
+            if (emp) {
+              if (Array.isArray(emp)) {
+                allEmployees.push(...emp);
+              } else {
+                allEmployees.push(emp);
+              }
+            }
+          });
+
           const uniqueEmployees = Array.from(
             new Map(allEmployees.map(emp => [emp.employee_id, emp])).values()
           );
@@ -99,7 +110,12 @@ export function useTeam(selectedMetrics: MetricWithDetails[]) {
           });
         }
 
-        setEmployeesByMetrics(employeesByMetricsData);
+        // Sort by metric_name for consistent order
+        const sortedEmployeesByMetrics = [...employeesByMetricsData].sort((a, b) =>
+          (a.metric_name || '').localeCompare(b.metric_name || '')
+        );
+
+        setEmployeesByMetrics(sortedEmployeesByMetrics);
       } catch (err) {
         console.error('Unexpected error:', err);
         setError('Произошла неожиданная ошибка');

@@ -233,12 +233,17 @@ export function useMetrics() {
           };
         });
 
-        console.log('ORDER BEFORE SET:', transformedMetrics.map(m => ({
+        // Sort by metric_name for consistent order
+        const sortedMetrics = [...transformedMetrics].sort((a, b) =>
+          (a.metric_name || '').localeCompare(b.metric_name || '')
+        );
+
+        console.log('ORDER BEFORE SET:', sortedMetrics.map(m => ({
           id: m.metric_id,
           name: m.metric_name
         })));
 
-        setMetrics(transformedMetrics);
+        setMetrics(sortedMetrics);
 
         //await fetchChartData(yearData.year_id, transformedMetrics);
       } catch (err) {
