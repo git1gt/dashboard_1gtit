@@ -42,7 +42,6 @@ function App() {
         {/* Metrics Grid */}
         <MetricsGrid />
 
-
         <h3 className="text-xl font-semibold text-[#081C2C] mb-6">
         Кто внёс вклад в показатели
         </h3>
