@@ -22,7 +22,7 @@ function App() {
                 cursor-pointer bg-transparent"
               >
                 <img 
-                  src="/Лого 1GT IT.png" 
+                  src="/logo.png" 
                   alt="1GT Logo" 
                   className="h-12 w-auto"
                 />
@@ -61,7 +61,7 @@ function App() {
                 cursor-pointer bg-transparent"
               >
                 <img 
-                  src="/Лого 1GT IT.png" 
+                  src="/logo.png" 
                   alt="1GT Logo" 
                   className="h-8 w-auto opacity-80"
                 />
